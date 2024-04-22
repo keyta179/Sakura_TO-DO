@@ -49,6 +49,7 @@ const TodoItem = ({ todo, onDelete }) => {
         left: position.x,
         top: position.y,
         cursor: dragging ? 'grabbing' : 'grab',
+        zIndex: dragging ? 1 : 0,
       }}
       className="todo-item" 
       onMouseDown={handleDragStart}

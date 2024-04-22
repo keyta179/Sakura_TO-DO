@@ -1,25 +1,23 @@
 {
   "short_name": "React App",
   "name": "Create React App Sample",
-  "icons": [
+  "icons":
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "16": "icon_16x16.png",
+      "48": "icon_48x48.png",
+      "128": "icon_128x128.png"
     }
-  ],
+  ,
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "subheading": "付箋型todoリスト",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "AggressiveTodo",
+    "default_icon": "logo192.png",
+    "default_popup": "index.html"
+  }
 }
