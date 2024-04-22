@@ -86,6 +86,10 @@ const TodoItem = ({ todo, todos, setTodos, onDelete }) => {
 
     return (
         <div
+        style={{
+            left: todo.position.x,
+            top: todo.position.y,
+        }}
             className="todo-item"
             onMouseDown={handleDragStart}
         >   

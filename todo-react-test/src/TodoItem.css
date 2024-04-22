@@ -11,6 +11,10 @@
     z-index: 0;
     user-select: none;
   }
+  .todo-item.dragging {
+    cursor: grabbing;
+    z-index: 1;
+}
   
   .todo-info {
     width: 100%;
