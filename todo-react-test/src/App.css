@@ -24,54 +24,7 @@ li:hover {
   background-color: #f4f4f4;
 }
 
-.todo-item {
-  width: 200px;
-  height: 150px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  margin: 10px;
-  padding: 10px;
-  display: inline-block;
-  cursor: pointer;
-  user-select: none;
-}
 
-.todo-info {
-  width: 100%;
-  height: 100%;
-
-}
-
-.todo-title {
-  text-align: left;
-  font-weight: bold;
-  font-size: large;
-}
-
-.todo-contents {
-  text-align: left;
-  margin-top: 5px;
-}
-
-.todo-date {
-  text-align: left;
-  margin-top: 5px;
-  font-size: 0.9rem;
-
-}
-
-.todo-duration {
-  text-align: right;
-  margin-top: 5px;
-  font-size: 0.9rem;
-
-}
-
-.todo-deleteButton {
-  position: absolute;
-  top: 10px; /* 上からの位置調整 */
-  right: 10px; /* 右からの位置調整 */
-}
 .menu {
   position: fixed;
   top: 0;

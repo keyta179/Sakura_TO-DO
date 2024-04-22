@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import './TodoItem.css';
+
 
 const TodoItem = ({ todo, todos, setTodos, onDelete }) => {
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
