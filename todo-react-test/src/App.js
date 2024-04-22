@@ -7,7 +7,8 @@ function App() {
   const [todo, setTodo] = useState({
     title: '',
     contents: '',
-    date: ''
+    date: '',
+    duration:''
   });
   const [todos, setTodos] = useState([]);
 
@@ -21,7 +22,7 @@ function App() {
 
   const addTodo = (e) => {
     e.preventDefault();
-    if (!todo.title || !todo.contents || !todo.date) return;
+    if (!todo.title ) return;
     setTodos([...todos, todo]);
     setTodo({
       title: '',
@@ -48,7 +49,8 @@ function App() {
       <form onSubmit={addTodo}>
         <input value={todo.title} type="text" name="title" onChange={handleChange} placeholder="Title" />
         <input value={todo.contents} type="text" name="contents" onChange={handleChange} placeholder="Contents" />
-        <input value={todo.date} type="date" name="date" onChange={handleChange} />
+        <input value={todo.date} type="datetime-local" name="date" onChange={handleChange} />
+        <input value={todo.duration} type='time'name="duration"onChange={handleChange}/>
         <button type="submit">Add ToDo</button>
         <button type="button" onClick={clearTodos}>Clear All ToDos</button>
       </form>

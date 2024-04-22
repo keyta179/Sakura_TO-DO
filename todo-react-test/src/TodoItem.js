@@ -75,10 +75,11 @@ const TodoItem = ({ todo, onDelete }) => {
             onMouseDown={handleDragStart}
         >
             <div className="todo-info">
-                <div className="todo-title">Title: {todo.title}</div>
+                <div className="todo-title">{todo.title}</div>
                 <div className="todo-date" style={{ color: changeDateColor(todo) }}>Date: {todo.date}</div>
-                <div className="todo-contents">Contents: {todo.contents}</div>
-                <button onClick={onDelete}>Delete</button>
+                <div className="todo-contents">Contents<br/> {todo.contents}</div>
+                <div className='todo-duration'>所要時間 {todo.duration}</div>
+                <button className="todo-deleteButton" onClick={onDelete}>×</button>
             </div>
         </div>
     );
