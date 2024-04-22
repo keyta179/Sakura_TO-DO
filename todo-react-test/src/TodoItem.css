@@ -5,8 +5,10 @@
     border: 1px solid #ccc;
     margin: 10px;
     padding: 10px;
+    position: absolute;
     display: inline-block;
-    cursor: pointer;
+    cursor: grab;
+    z-index: 0;
     user-select: none;
   }
   
