@@ -10,37 +10,46 @@ const TodoItem = ({ todo, todos, setTodos, onDelete }) => {
         setMousePos({ x: event.clientX, y: event.clientY });
     };
 
-    // ドラッグ中の処理
-    const handleDrag = (event) => {
-        if (dragging) {
-            const deltaX = event.clientX - mousePos.x;
-            const deltaY = event.clientY - mousePos.y;
-
-            // ドラッグ中の ToDo アイテムの位置を更新
-            const updatedTodos = todos.map((item) => {
-                if (item === todo) {
-                    return {
-                        ...item,
-                        position: {
-                            x: item.position.x + deltaX,
-                            y: item.position.y + deltaY,
-                        },
-                    };
-                }
-                return item;
-            });
-
-            setTodos(updatedTodos);
-            setMousePos({ x: event.clientX, y: event.clientY });
-        }
-    };
-
-    // ドラッグ終了時の処理
-    const handleDragEnd = () => {
-        setDragging(false);
-    };
+    
 
     useEffect(() => {
+        const handleDrag = (event) => {
+            if (dragging) {
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+        
+                const deltaX = event.clientX - mousePos.x;
+                const deltaY = event.clientY - mousePos.y;
+        
+                let newPositionX = todo.position.x + deltaX;
+                let newPositionY = todo.position.y + deltaY;
+        
+                // 画面外に出ないように位置を制限
+                newPositionX = Math.max(0, Math.min(newPositionX, windowWidth));
+                newPositionY = Math.max(0, Math.min(newPositionY, windowHeight));
+        
+                const updatedTodos = todos.map((item) => {
+                    if (item === todo) {
+                        return {
+                            ...item,
+                            position: {
+                                x: newPositionX,
+                                y: newPositionY,
+                            },
+                        };
+                    }
+                    return item;
+                });
+        
+                setTodos(updatedTodos);
+                setMousePos({ x: event.clientX, y: event.clientY });
+            }
+        };
+        
+        // ドラッグ終了時の処理
+        const handleDragEnd = () => {
+            setDragging(false);
+        };
         if (dragging) {
             window.addEventListener('mousemove', handleDrag);
             window.addEventListener('mouseup', handleDragEnd);
@@ -52,7 +61,7 @@ const TodoItem = ({ todo, todos, setTodos, onDelete }) => {
             window.removeEventListener('mousemove', handleDrag);
             window.removeEventListener('mouseup', handleDragEnd);
         };
-    }, [dragging, todos, todo, setTodos]);
+    }, [dragging, mousePos, todo, todos, setTodos]);
 
     const changeDateColor = (todo) => {
         const todoDate = new Date(todo.date);
