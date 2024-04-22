@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-const TodoItem = ({ todo, onDelete }) => {
+const TodoItem = ({ todo, todos, setTodos, onDelete }) => {
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
-    const [position, setPosition] = useState({ x: 0, y: 0 }); // 図形の位置
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 }); // マウス位置
 
     // ドラッグ開始時の処理
@@ -16,10 +15,22 @@ const TodoItem = ({ todo, onDelete }) => {
         if (dragging) {
             const deltaX = event.clientX - mousePos.x;
             const deltaY = event.clientY - mousePos.y;
-            setPosition({
-                x: position.x + deltaX,
-                y: position.y + deltaY,
+
+            // ドラッグ中の ToDo アイテムの位置を更新
+            const updatedTodos = todos.map((item) => {
+                if (item === todo) {
+                    return {
+                        ...item,
+                        position: {
+                            x: item.position.x + deltaX,
+                            y: item.position.y + deltaY,
+                        },
+                    };
+                }
+                return item;
             });
+
+            setTodos(updatedTodos);
             setMousePos({ x: event.clientX, y: event.clientY });
         }
     };
@@ -41,7 +52,7 @@ const TodoItem = ({ todo, onDelete }) => {
             window.removeEventListener('mousemove', handleDrag);
             window.removeEventListener('mouseup', handleDragEnd);
         };
-    }, [dragging]); // dragging 状態が変化するときだけ useEffect が実行される
+    }, [dragging, todos, todo, setTodos]);
 
     const changeDateColor = (todo) => {
         const todoDate = new Date(todo.date);
@@ -66,14 +77,14 @@ const TodoItem = ({ todo, onDelete }) => {
         <div
             style={{
                 position: 'absolute',
-                left: position.x,
-                top: position.y,
+                left: todo.position.x,
+                top: todo.position.y,
                 cursor: dragging ? 'grabbing' : 'grab',
                 zIndex: dragging ? 1 : 0,
             }}
             className="todo-item"
             onMouseDown={handleDragStart}
-        >
+        >   
             <div className="todo-info">
                 <div className="todo-title">{todo.title}</div>
                 <div className="todo-date" style={{ color: changeDateColor(todo) }}>Date: {todo.date}</div>
