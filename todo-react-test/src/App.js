@@ -63,7 +63,7 @@ function App() {
   const clearTodos = () => {
     setTodos([]);
   };
-
+  
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
