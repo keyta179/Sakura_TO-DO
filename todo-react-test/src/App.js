@@ -12,7 +12,7 @@ function App() {
     position: { x: 0, y: 0 }
   });
   const [todos, setTodos] = useState([]);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   // ローカルストレージから todos を取得してセットする関数
   const loadTodosFromLocalStorage = () => {
     const savedTodos = localStorage.getItem('todos');
@@ -64,27 +64,41 @@ function App() {
     setTodos([]);
   };
 
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   return (
     <div className="App">
       <h1>ToDo List</h1>
+      
 
-      <form onSubmit={addTodo}>
-        <input value={todo.title} type="text" name="title" onChange={handleChange} placeholder="Title" />
-        <input value={todo.contents} type="text" name="contents" onChange={handleChange} placeholder="Contents" />
-        <input value={todo.date} type="datetime-local" name="date" onChange={handleChange} />
-        <input value={todo.duration} type='time' name="duration" onChange={handleChange} />
-        <button type="submit">Add ToDo</button>
-        <button type="button" onClick={clearTodos}>Clear All ToDos</button>
-      </form>
+      <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
+        {/* メニューの中身 */}
+        <button type="button" className={"toggle-button"} onClick={toggleMenu}>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </button>
+        {/* ここにメニューの内容を追加 */}
+        <form onSubmit={addTodo}>
+          <input value={todo.title} type="text" name="title" onChange={handleChange} placeholder="Title" />
+          <input value={todo.contents} type="text" name="contents" onChange={handleChange} placeholder="Contents" />
+          <input value={todo.date} type="datetime-local" name="date" onChange={handleChange} />
+          <input value={todo.duration} type='time' name="duration" onChange={handleChange} />
+          <button type="submit">Add ToDo</button>
+          <button type="button" onClick={clearTodos}>Clear All ToDos</button>
+        </form>
+      </div>
 
       {todos.map((todo, index) => (
-        <TodoItem 
-          key={index} 
+        <TodoItem
+          key={index}
           index={index}
-          todo={todo} 
+          todo={todo}
           todos={todos}
           setTodos={setTodos}
-          onDelete={() => deleteTodo(index)} 
+          onDelete={() => deleteTodo(index)}
         />
       ))}
     </div>

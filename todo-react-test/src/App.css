@@ -72,3 +72,34 @@ li:hover {
   top: 10px; /* 上からの位置調整 */
   right: 10px; /* 右からの位置調整 */
 }
+.menu {
+  position: fixed;
+  top: 0;
+  right: -250px; /* 初期位置を右端に設定 */
+  width: 250px;
+  height: 100%;
+  background-color: #f0f0f0;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease; /* rightプロパティをトランジションさせる */
+}
+
+.menu.open {
+  right: 0; /* メニューを開いたときに左に移動 */
+}
+.toggle-button {
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: #000;
+  margin: 5px 0;
+}
