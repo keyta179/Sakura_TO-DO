@@ -98,7 +98,7 @@ const TodoItem = ({ todo, todos, setTodos, onDelete }) => {
                 <div className="todo-date" style={{ color: changeDateColor(todo) }}>Date: {todo.date}</div>
                 <div className="todo-contents">Contents<br/> {todo.contents}</div>
                 <div className='todo-duration'>所要時間 {todo.duration}</div>
-                <button className="todo-deleteButton" onClick={onDelete}>×</button>
+                <div className="todo-deleteButton" onClick={onDelete}>×</div>
             </div>
         </div>
     );
