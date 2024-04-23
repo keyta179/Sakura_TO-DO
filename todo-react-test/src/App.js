@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import TodoItem from './TodoItem';
+import { Tabs } from './CreateTab';
 
 function App() {
   const [todo, setTodo] = useState({
@@ -72,6 +73,7 @@ function App() {
     <div className="App">
       <h1>ToDo List</h1>
       
+      <Tabs onChange={(tab) => console.log(tab)} />
 
       <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
         {/* メニューの中身 */}
