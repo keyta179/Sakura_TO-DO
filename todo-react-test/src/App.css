@@ -58,15 +58,15 @@ li:hover {
 }
 
 .bar {
-  width: 15px;
+  width: 19px;
   height: 4px;
   background-color: #000;
   margin: 3px 0;
-  transition: transform 1s ease;
+  transition: transform 0.8s ease;
 }
 
 .menu.open .bar:nth-child(1) {
-  transform: rotate(45deg) translate(2px, 2px);
+  transform: rotate(45deg) translate(2px, 0px);
 }
 
 .menu.open .bar:nth-child(2) {
@@ -74,5 +74,5 @@ li:hover {
 }
 
 .menu.open .bar:nth-child(3) {
-  transform: rotate(-45deg) translate(2px, -2px);
+  transform: rotate(-45deg) translate(2px, 0px);
 }
