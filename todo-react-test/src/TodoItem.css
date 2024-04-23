@@ -49,6 +49,16 @@
   
   .todo-deleteButton {
     position: absolute;
-    top: 10px; /* 上からの位置調整 */
-    right: 10px; /* 右からの位置調整 */
+    line-height: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    height: 10px;
+    width: 10spx;
+    /* font-weight: bold; */
+    font-size: 20px;
+    top: 0px; /* 上からの位置調整 */
+    right: 0px; /* 右からの位置調整 */
+    border-radius: 15px;
   }
