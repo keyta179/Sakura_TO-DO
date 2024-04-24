@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './TodoItem.css';
 
 
-const TodoItem = ({ todo, todos, setTodos, onDelete }) => {
+
+const TodoItem = ({ todo, todos, setTodos, onDelete,onAddFavorite }) => {
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 }); // マウス位置
 
@@ -11,25 +12,28 @@ const TodoItem = ({ todo, todos, setTodos, onDelete }) => {
         setDragging(true);
         setMousePos({ x: event.clientX, y: event.clientY });
     };
+    const addFavorite = () => {
+        console.log(todo);
+        onAddFavorite(todo);
+      };
 
-    
 
     useEffect(() => {
         const handleDrag = (event) => {
             if (dragging) {
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
-        
+
                 const deltaX = event.clientX - mousePos.x;
                 const deltaY = event.clientY - mousePos.y;
-        
+
                 let newPositionX = todo.position.x + deltaX;
                 let newPositionY = todo.position.y + deltaY;
-        
+
                 // 画面外に出ないように位置を制限
                 newPositionX = Math.max(0, Math.min(newPositionX, windowWidth));
                 newPositionY = Math.max(0, Math.min(newPositionY, windowHeight));
-        
+
                 const updatedTodos = todos.map((item) => {
                     if (item === todo) {
                         return {
@@ -42,12 +46,12 @@ const TodoItem = ({ todo, todos, setTodos, onDelete }) => {
                     }
                     return item;
                 });
-        
+
                 setTodos(updatedTodos);
                 setMousePos({ x: event.clientX, y: event.clientY });
             }
         };
-        
+
         // ドラッグ終了時の処理
         const handleDragEnd = () => {
             setDragging(false);
@@ -83,22 +87,27 @@ const TodoItem = ({ todo, todos, setTodos, onDelete }) => {
         const bgColor = `rgb(${red}, ${green}, 0)`;
         return bgColor;
     };
+    
+
+    // ...
+
 
     return (
         <div
-        style={{
-            left: todo.position.x,
-            top: todo.position.y,
-        }}
+            style={{
+                left: todo.position.x,
+                top: todo.position.y,
+            }}
             className="todo-item"
             onMouseDown={handleDragStart}
         >   
             <div className="todo-info">
                 <div className="todo-title">{todo.title}</div>
                 <div className="todo-date" style={{ color: changeDateColor(todo) }}>Date: {todo.date}</div>
-                <div className="todo-contents">Contents<br/> {todo.contents}</div>
+                <div className="todo-contents">Contents<br /> {todo.contents}</div>
                 <div className='todo-duration'>所要時間 {todo.duration}</div>
                 <div className="todo-deleteButton" onClick={onDelete}>×</div>
+                <div className="todo-favoriteButton" onClick={addFavorite}>☆</div>
             </div>
         </div>
     );

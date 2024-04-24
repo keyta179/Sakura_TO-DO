@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import TodoItem from './TodoItem';
 import { Tabs } from './CreateTab';
-
+import Favorite from './Favorite';
 function App() {
   const [todo, setTodo] = useState({
     title: '',
@@ -14,6 +14,7 @@ function App() {
   });
   const [todos, setTodos] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [favoriteTodos, setFavoriteTodos] = useState([]);
   // ローカルストレージから todos を取得してセットする関数
   const loadTodosFromLocalStorage = () => {
     const savedTodos = localStorage.getItem('todos');
@@ -26,7 +27,9 @@ function App() {
   const saveTodosToLocalStorage = (todos) => {
     localStorage.setItem('todos', JSON.stringify(todos));
   };
-
+  const addFavoriteTodo = (favoriteTodo) => {
+    setFavoriteTodos([...favoriteTodos, favoriteTodo]);
+  };
   useEffect(() => {
     loadTodosFromLocalStorage(); // コンポーネントがマウントされたときにローカルストレージから読み込み
   }, []);
@@ -45,7 +48,7 @@ function App() {
 
   const addTodo = (e) => {
     e.preventDefault();
-    if (!todo.title ) return;
+    if (!todo.title) return;
     setTodos([...todos, todo]);
     setTodo({
       title: '',
@@ -64,7 +67,7 @@ function App() {
   const clearTodos = () => {
     setTodos([]);
   };
-  
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -72,16 +75,17 @@ function App() {
   return (
     <div className="App">
       <h1>ToDo List</h1>
-      
+
       <Tabs onChange={(tab) => console.log(tab)} />
 
       <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
         {/* メニューの中身 */}
         <button type="button" className={"toggle-button"} onClick={toggleMenu}>
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-      </button>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+        </button>
+        
         {/* ここにメニューの内容を追加 */}
         <form onSubmit={addTodo}>
           <input value={todo.title} type="text" name="title" onChange={handleChange} placeholder="Title" />
@@ -89,9 +93,13 @@ function App() {
           <input value={todo.date} type="datetime-local" name="date" onChange={handleChange} />
           <input value={todo.duration} type='time' name="duration" onChange={handleChange} />
           <button type="submit">Add ToDo</button>
-          <button type="button" onClick={clearTodos}>Clear All ToDos</button>
+          {/* <button type="button" onClick={clearTodos}>Clear All ToDos</button> */}
         </form>
+        {favoriteTodos.length > 0 && (
+        <Favorite favoriteTodos={favoriteTodos} /> 
+      )}
       </div>
+      
 
       {todos.map((todo, index) => (
         <TodoItem
@@ -101,9 +109,11 @@ function App() {
           todos={todos}
           setTodos={setTodos}
           onDelete={() => deleteTodo(index)}
+          onAddFavorite={() => addFavoriteTodo(todo)}
         />
       ))}
-    </div>
+    </div> 
+
   );
 }
 
