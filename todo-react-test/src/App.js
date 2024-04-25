@@ -1,11 +1,12 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import './style/App.css';
 import TodoItem from './components/TodoItem';
 import { Tabs } from './components/CreateTab';
 import Favorite from './components/Favorite';
-import SettingsPopup from './components/SettingPopup'; // 新しいコンポーネントをインポート
+import SettingsPopup from './components/SettingPopup';
+
 function App() {
+  // State
   const [todo, setTodo] = useState({
     title: '',
     contents: '',
@@ -16,13 +17,15 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [favoriteTodos, setFavoriteTodos] = useState([]);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // 1. マウスの位置を追跡する state
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [settings, setSettings] = useState({
+    bodyWidth: 800,
+    bodyHeight: 600
+  });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false);
-  const [bodyWidth, setBodyWidth] = useState(800); // ボディの幅
-  const [bodyHeight, setBodyHeight] = useState(600); // ボディの高さ
 
-  // ローカルストレージから todos を取得してセットする関数
+  // Local Storage
   const loadTodosFromLocalStorage = () => {
     const savedTodos = localStorage.getItem('todos');
     if (savedTodos) {
@@ -30,10 +33,11 @@ function App() {
     }
   };
 
-  // ローカルストレージに todos を保存する関数
   const saveTodosToLocalStorage = (todos) => {
     localStorage.setItem('todos', JSON.stringify(todos));
   };
+
+  // Settings
   const toggleSettings = () => {
     setIsSettingsOpen(!isSettingsOpen);
   };
@@ -46,19 +50,21 @@ function App() {
     setIsSettingsPopupOpen(false);
   };
 
+  const changeBodySize = (width, height) => {
+    setSettings(prevSettings => ({
+      ...prevSettings,
+      bodyWidth: width,
+      bodyHeight: height
+    }));
+  };
+
+  // Favorite Todos
   const addFavoriteTodo = (newFavoriteTodo) => {
     const updatedFavoriteTodo = { ...newFavoriteTodo };
     setFavoriteTodos([...favoriteTodos, updatedFavoriteTodo]);
   };
 
-  useEffect(() => {
-    loadTodosFromLocalStorage();
-  }, []);
-
-  useEffect(() => {
-    saveTodosToLocalStorage(todos);
-  }, [todos]);
-
+  // Event Handlers
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTodo(prevTodo => ({
@@ -66,15 +72,6 @@ function App() {
       [name]: value
     }));
   };
-
-  useEffect(() => {
-    const updateMousePosition = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', updateMousePosition);
-
-    return () => window.removeEventListener('mousemove', updateMousePosition);
-  }, []);
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -101,11 +98,37 @@ function App() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  const changeBodySize = (width, height) => {
-    setBodyWidth(width);
-    setBodyHeight(height);
-  };
 
+  // Effects
+  useEffect(() => {
+    loadTodosFromLocalStorage();
+  }, []);
+
+  useEffect(() => {
+    saveTodosToLocalStorage(todos);
+  }, [todos]);
+
+  useEffect(() => {
+    const updateMousePosition = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', updateMousePosition);
+
+    return () => window.removeEventListener('mousemove', updateMousePosition);
+  }, []);
+
+  useEffect(() => {
+    const savedSettings = JSON.parse(localStorage.getItem('settings'));
+    if (savedSettings) {
+      setSettings(savedSettings);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('settings', JSON.stringify(settings));
+  }, [settings]);
+
+  // Rendering
   return (
     <div className="App"
       onDragOver={(e) => e.preventDefault()}
@@ -114,7 +137,7 @@ function App() {
         const todo = JSON.parse(e.dataTransfer.getData('text/plain'));
         setTodos([...todos, { ...todo, position: newPosition }]);
       }}
-      style={{ width: bodyWidth, height: bodyHeight }}>
+      style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
 
       <h1>ToDo List</h1>
       <Tabs onChange={(tab) => console.log(tab)} />
@@ -124,8 +147,7 @@ function App() {
 
       {isSettingsPopupOpen && (
         <SettingsPopup
-          bodyWidth={bodyWidth}
-          bodyHeight={bodyHeight}
+          settings={settings}
           changeBodySize={changeBodySize}
           closeSettingsPopup={closeSettingsPopup}
         />
