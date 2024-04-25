@@ -1,7 +1,7 @@
 // Favorite.js
-
 import React from 'react';
-import './Favorite.css';
+import './../style/Favorite.css';
+
 const Favorite = ({ favoriteTodos }) => {
     const onDeleteFavorite = () => {
         console.log('delete');
