@@ -1,6 +1,14 @@
 import React from 'react';
 
-const SettingsPopup = ({ settings, changeBodySize, closeSettingsPopup }) => {
+const SettingsPopup = ({ settings,setSettings, closeSettingsPopup }) => {
+    const changeBodySize = (width, height) => {
+        setSettings(prevSettings => ({
+            ...prevSettings,
+            bodyWidth: width,
+            bodyHeight: height
+        }));
+    };
+    
     return (
         <div className="popup">
             <div className="popup-content">
@@ -15,6 +23,7 @@ const SettingsPopup = ({ settings, changeBodySize, closeSettingsPopup }) => {
                     step="10"
                     value={settings.bodyWidth}
                     onChange={(e) => changeBodySize(Number(e.target.value), settings.bodyHeight)}
+
                 />
                 <label htmlFor="height">Height:</label>
                 <input

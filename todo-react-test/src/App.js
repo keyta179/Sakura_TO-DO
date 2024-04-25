@@ -1,9 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import './style/App.css';
 import TodoItem from './components/TodoItem';
 import { Tabs } from './components/CreateTab';
 import Favorite from './components/Favorite';
 import SettingsPopup from './components/SettingPopup';
+
+// settingsUtils.jsから関数をインポート
+import { loadSettingsFromLocalStorage, saveSettingsToLocalStorage } from './settingsUtils';
 
 function App() {
   // State
@@ -18,13 +22,10 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [favoriteTodos, setFavoriteTodos] = useState([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [settings, setSettings] = useState({
-    bodyWidth: 800,
-    bodyHeight: 600
-  });
+  // loadSettingsFromLocalStorageを使って初期値を設定
+  const [settings, setSettings] = useState(loadSettingsFromLocalStorage());
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false);
-
   // Local Storage
   const loadTodosFromLocalStorage = () => {
     const savedTodos = localStorage.getItem('todos');
@@ -50,13 +51,7 @@ function App() {
     setIsSettingsPopupOpen(false);
   };
 
-  const changeBodySize = (width, height) => {
-    setSettings(prevSettings => ({
-      ...prevSettings,
-      bodyWidth: width,
-      bodyHeight: height
-    }));
-  };
+
 
   // Favorite Todos
   const addFavoriteTodo = (newFavoriteTodo) => {
@@ -148,7 +143,7 @@ function App() {
       {isSettingsPopupOpen && (
         <SettingsPopup
           settings={settings}
-          changeBodySize={changeBodySize}
+          setSettings={setSettings}
           closeSettingsPopup={closeSettingsPopup}
         />
       )}
