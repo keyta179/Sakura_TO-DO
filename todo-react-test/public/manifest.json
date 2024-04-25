@@ -1,13 +1,11 @@
 {
   "short_name": "React App",
   "name": "Create React App Sample",
-  "icons":
-    {
-      "16": "icon_16x16.png",
-      "48": "icon_48x48.png",
-      "128": "icon_128x128.png"
-    }
-  ,
+  "icons": {
+    "16": "icon_16x16.png",
+    "48": "icon_48x48.png",
+    "128": "icon_128x128.png"
+  },
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
@@ -19,5 +17,17 @@
     "default_title": "AggressiveTodo",
     "default_icon": "logo192.png",
     "default_popup": "index.html"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "webNavigation",
+    "notifications"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
   }
 }

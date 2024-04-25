@@ -10,7 +10,13 @@
     cursor: grab;
     z-index: 0;
     user-select: none;
+    transition: transform 0.3s ease-in-out; /* 広がって登場するアニメーション */
+    transform: scale(0);
   }
+
+.todo-item.show {
+    transform: scale(1);
+}
   .todo-item.dragging {
     cursor: grabbing;
     z-index: 1;
@@ -64,14 +70,39 @@
   .todo-favoriteButton {
     position: absolute;
     line-height: 0px;
-    /* padding-left: 3px;
-    padding-right: 3px;
-    padding-top: 9px;
-    padding-bottom: 9px; */
-    height: 10px;
-    width: 10spx;
+    height: 20px;
+    width: 20px;
     font-weight: bold;
     font-size: 20px;
-    top: 10px; /* 上からの位置調整 */
-    right: 20px; /* 右からの位置調整 */
+    top: 10px; 
+    right: 20px; 
+    cursor: pointer; 
+    color: rgba(255, 255, 0, 0);
+    -webkit-text-stroke-width: 1px;
+
+    -webkit-text-stroke-color: black;
   }
+  
+  .todo-favoriteButton.clicked {
+    animation: pulse 1s;
+    color: yellow; 
+    text-shadow: 
+      1px 1px 5px rgba(101, 101, 101, 0.758);
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  
+
+
+
