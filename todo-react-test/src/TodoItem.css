@@ -10,7 +10,13 @@
     cursor: grab;
     z-index: 0;
     user-select: none;
+    transition: transform 0.3s ease-in-out; /* 広がって登場するアニメーション */
+    transform: scale(0);
   }
+
+.todo-item.show {
+    transform: scale(1);
+}
   .todo-item.dragging {
     cursor: grabbing;
     z-index: 1;

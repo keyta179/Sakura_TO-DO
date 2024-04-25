@@ -15,6 +15,7 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [favoriteTodos, setFavoriteTodos] = useState([]);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // 1. マウスの位置を追跡する state
 
   // ローカルストレージから todos を取得してセットする関数
   const loadTodosFromLocalStorage = () => {
@@ -29,9 +30,14 @@ function App() {
     localStorage.setItem('todos', JSON.stringify(todos));
   };
 
-  const addFavoriteTodo = (favoriteTodo) => {
-    setFavoriteTodos([...favoriteTodos, favoriteTodo]);
+  const addFavoriteTodo = (newFavoriteTodo) => {
+    // 新しいオブジェクトを作成し、favoriteTodo の値をコピーする
+    const updatedFavoriteTodo = { ...newFavoriteTodo };
+    // 新しいオブジェクトを favoriteTodos に追加する
+    setFavoriteTodos([...favoriteTodos, updatedFavoriteTodo]);
   };
+  
+  
 
   useEffect(() => {
     loadTodosFromLocalStorage(); // コンポーネントがマウントされたときにローカルストレージから読み込み
@@ -48,6 +54,14 @@ function App() {
       [name]: value
     }));
   };
+  useEffect(() => {
+    const updateMousePosition = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', updateMousePosition);
+
+    return () => window.removeEventListener('mousemove', updateMousePosition);
+  }, []);
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -79,8 +93,9 @@ function App() {
     <div className="App"
       onDragOver={(e) => e.preventDefault()}
       onDrop={(e) => {
+        const newPosition = { x: e.clientX, y: e.clientY };
         const todo = JSON.parse(e.dataTransfer.getData('text/plain'));
-        setTodos([...todos, { ...todo, position: { x: 0, y: 0 } }]);
+        setTodos([...todos, { ...todo, position: newPosition }]);
       }}>
 
       <h1>ToDo List</h1>
@@ -105,9 +120,11 @@ function App() {
         </form>
         {favoriteTodos.length > 0 && (
           <Favorite favoriteTodos={favoriteTodos}
+          setFavoriteTodos={setFavoriteTodos}
             onDragStart={(event, todo) => {
               event.dataTransfer.setData('text/plain', JSON.stringify(todo));
               toggleMenu();
+            
             }} />
         )}
       </div>

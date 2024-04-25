@@ -6,6 +6,9 @@ body {
 .App {
   text-align: center;
   padding: 20px;
+  width: 100vw; /* 100% of the viewport width */
+  height: 100vh; /* 100% of the viewport height */
+  box-sizing: border-box;
 }
 
 input,
