@@ -1,9 +1,10 @@
+// App.js
 import React, { useState, useEffect } from 'react';
 import './style/App.css';
 import TodoItem from './components/TodoItem';
 import { Tabs } from './components/CreateTab';
 import Favorite from './components/Favorite';
-
+import SettingsPopup from './components/SettingPopup'; // 新しいコンポーネントをインポート
 function App() {
   const [todo, setTodo] = useState({
     title: '',
@@ -16,6 +17,10 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [favoriteTodos, setFavoriteTodos] = useState([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // 1. マウスの位置を追跡する state
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false);
+  const [bodyWidth, setBodyWidth] = useState(800); // ボディの幅
+  const [bodyHeight, setBodyHeight] = useState(600); // ボディの高さ
 
   // ローカルストレージから todos を取得してセットする関数
   const loadTodosFromLocalStorage = () => {
@@ -29,22 +34,29 @@ function App() {
   const saveTodosToLocalStorage = (todos) => {
     localStorage.setItem('todos', JSON.stringify(todos));
   };
+  const toggleSettings = () => {
+    setIsSettingsOpen(!isSettingsOpen);
+  };
+
+  const openSettingsPopup = () => {
+    setIsSettingsPopupOpen(true);
+  };
+
+  const closeSettingsPopup = () => {
+    setIsSettingsPopupOpen(false);
+  };
 
   const addFavoriteTodo = (newFavoriteTodo) => {
-    // 新しいオブジェクトを作成し、favoriteTodo の値をコピーする
     const updatedFavoriteTodo = { ...newFavoriteTodo };
-    // 新しいオブジェクトを favoriteTodos に追加する
     setFavoriteTodos([...favoriteTodos, updatedFavoriteTodo]);
   };
-  
-  
 
   useEffect(() => {
-    loadTodosFromLocalStorage(); // コンポーネントがマウントされたときにローカルストレージから読み込み
+    loadTodosFromLocalStorage();
   }, []);
 
   useEffect(() => {
-    saveTodosToLocalStorage(todos); // todos が変更されるたびにローカルストレージに保存
+    saveTodosToLocalStorage(todos);
   }, [todos]);
 
   const handleChange = (e) => {
@@ -54,6 +66,7 @@ function App() {
       [name]: value
     }));
   };
+
   useEffect(() => {
     const updateMousePosition = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -88,6 +101,10 @@ function App() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const changeBodySize = (width, height) => {
+    setBodyWidth(width);
+    setBodyHeight(height);
+  };
 
   return (
     <div className="App"
@@ -96,35 +113,43 @@ function App() {
         const newPosition = { x: e.clientX, y: e.clientY };
         const todo = JSON.parse(e.dataTransfer.getData('text/plain'));
         setTodos([...todos, { ...todo, position: newPosition }]);
-      }}>
+      }}
+      style={{ width: bodyWidth, height: bodyHeight }}>
 
       <h1>ToDo List</h1>
       <Tabs onChange={(tab) => console.log(tab)} />
+      <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
+        Settings
+      </button>
+
+      {isSettingsPopupOpen && (
+        <SettingsPopup
+          bodyWidth={bodyWidth}
+          bodyHeight={bodyHeight}
+          changeBodySize={changeBodySize}
+          closeSettingsPopup={closeSettingsPopup}
+        />
+      )}
 
       <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
-        {/* メニューの中身 */}
         <button type="button" className={"toggle-button"} onClick={toggleMenu}>
           <div className="bar"></div>
           <div className="bar"></div>
           <div className="bar"></div>
         </button>
-
-        {/* ここにメニューの内容を追加 */}
         <form onSubmit={addTodo}>
           <input value={todo.title} type="text" name="title" onChange={handleChange} placeholder="Title" />
           <input value={todo.contents} type="text" name="contents" onChange={handleChange} placeholder="Contents" />
           <input value={todo.date} type="datetime-local" name="date" onChange={handleChange} />
           <input value={todo.duration} type='time' name="duration" onChange={handleChange} />
           <button type="submit">Add ToDo</button>
-          {/* <button type="button" onClick={clearTodos}>Clear All ToDos</button> */}
         </form>
         {favoriteTodos.length > 0 && (
           <Favorite favoriteTodos={favoriteTodos}
-          setFavoriteTodos={setFavoriteTodos}
+            setFavoriteTodos={setFavoriteTodos}
             onDragStart={(event, todo) => {
               event.dataTransfer.setData('text/plain', JSON.stringify(todo));
               toggleMenu();
-            
             }} />
         )}
       </div>
