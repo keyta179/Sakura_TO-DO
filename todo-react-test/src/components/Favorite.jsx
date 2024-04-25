@@ -17,10 +17,6 @@ const Favorite = ({ favoriteTodos, setFavoriteTodos, onDragStart }) => {
         localStorage.setItem('favoriteTodos', JSON.stringify(favoriteTodos));
     };
 
-    const onDeleteFavorite = () => {
-        console.log('delete');
-    };
-
     const handleDragStart = (event, todo) => {
         onDragStart(event, todo);
     };
@@ -56,9 +52,8 @@ const Favorite = ({ favoriteTodos, setFavoriteTodos, onDragStart }) => {
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const weekday = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()]; // 曜日を取得
-        console.log(hours, minutes, weekday);
         return `(${weekday}) ${hours}:${minutes}`;
-      };
+    };
     return (
         <div className="favorite-list-container">
             <h2>Favorite Todos</h2>
@@ -66,7 +61,7 @@ const Favorite = ({ favoriteTodos, setFavoriteTodos, onDragStart }) => {
                 <div className="popup-container">
                     <div className="popup-favorite">
                         <div className="popup-content">
-                        <p>{`"${favoriteTodos[popupIndex].title}" を削除しますか？`}</p>
+                            <p>{`"${favoriteTodos[popupIndex].title}" を削除しますか？`}</p>
 
 
                             <button onClick={closePopup}>キャンセル</button>

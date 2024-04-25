@@ -111,15 +111,15 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 影を追加 */
 }
 
-.popup-content {
+.popup-menu-content {
     text-align: center;
 }
 
-.popup-content p {
+.popup-menu-content p {
     margin-bottom: 20px;
 }
 
-.popup-content button {
+.popup-menu-content button {
     margin: 0 10px;
     padding: 8px 16px;
     border: none;
@@ -127,11 +127,11 @@
     cursor: pointer;
 }
 
-.popup-content button:first-child {
+.popup-menu-content button:first-child {
     background-color: #ddd; /* キャンセルボタンの背景色 */
 }
 
-.popup-content button:last-child {
+.popup-menu-content button:last-child {
     background-color: #ff6347; /* 削除ボタンの背景色 */
     color: white;
 }

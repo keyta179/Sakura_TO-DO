@@ -103,3 +103,12 @@ li:hover {
   z-index: 100;
   border-radius: 10px; /* 角を丸くする */
 }
+textarea {
+  width: 75%;
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 10px 0;
+}
