@@ -1,9 +1,9 @@
-// App.js
 import React, { useState, useEffect } from 'react';
-import './App.css';
-import TodoItem from './TodoItem';
-import { Tabs } from './CreateTab';
-import Favorite from './Favorite';
+import './style/App.css';
+import TodoItem from './components/TodoItem';
+import { Tabs } from './components/CreateTab';
+import Favorite from './components/Favorite';
+
 function App() {
   const [todo, setTodo] = useState({
     title: '',
@@ -15,6 +15,8 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [favoriteTodos, setFavoriteTodos] = useState([]);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // 1. マウスの位置を追跡する state
+
   // ローカルストレージから todos を取得してセットする関数
   const loadTodosFromLocalStorage = () => {
     const savedTodos = localStorage.getItem('todos');
@@ -27,9 +29,16 @@ function App() {
   const saveTodosToLocalStorage = (todos) => {
     localStorage.setItem('todos', JSON.stringify(todos));
   };
-  const addFavoriteTodo = (favoriteTodo) => {
-    setFavoriteTodos([...favoriteTodos, favoriteTodo]);
+
+  const addFavoriteTodo = (newFavoriteTodo) => {
+    // 新しいオブジェクトを作成し、favoriteTodo の値をコピーする
+    const updatedFavoriteTodo = { ...newFavoriteTodo };
+    // 新しいオブジェクトを favoriteTodos に追加する
+    setFavoriteTodos([...favoriteTodos, updatedFavoriteTodo]);
   };
+  
+  
+
   useEffect(() => {
     loadTodosFromLocalStorage(); // コンポーネントがマウントされたときにローカルストレージから読み込み
   }, []);
@@ -45,6 +54,14 @@ function App() {
       [name]: value
     }));
   };
+  useEffect(() => {
+    const updateMousePosition = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', updateMousePosition);
+
+    return () => window.removeEventListener('mousemove', updateMousePosition);
+  }, []);
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -68,14 +85,20 @@ function App() {
     setTodos([]);
   };
 
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  return (
-    <div className="App">
-      <h1>ToDo List</h1>
 
+  return (
+    <div className="App"
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(e) => {
+        const newPosition = { x: e.clientX, y: e.clientY };
+        const todo = JSON.parse(e.dataTransfer.getData('text/plain'));
+        setTodos([...todos, { ...todo, position: newPosition }]);
+      }}>
+
+      <h1>ToDo List</h1>
       <Tabs onChange={(tab) => console.log(tab)} />
 
       <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
@@ -85,7 +108,7 @@ function App() {
           <div className="bar"></div>
           <div className="bar"></div>
         </button>
-        
+
         {/* ここにメニューの内容を追加 */}
         <form onSubmit={addTodo}>
           <input value={todo.title} type="text" name="title" onChange={handleChange} placeholder="Title" />
@@ -96,10 +119,15 @@ function App() {
           {/* <button type="button" onClick={clearTodos}>Clear All ToDos</button> */}
         </form>
         {favoriteTodos.length > 0 && (
-        <Favorite favoriteTodos={favoriteTodos} /> 
-      )}
+          <Favorite favoriteTodos={favoriteTodos}
+          setFavoriteTodos={setFavoriteTodos}
+            onDragStart={(event, todo) => {
+              event.dataTransfer.setData('text/plain', JSON.stringify(todo));
+              toggleMenu();
+            
+            }} />
+        )}
       </div>
-      
 
       {todos.map((todo, index) => (
         <TodoItem
@@ -112,8 +140,7 @@ function App() {
           onAddFavorite={() => addFavoriteTodo(todo)}
         />
       ))}
-    </div> 
-
+    </div>
   );
 }
 
