@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './TodoItem.css';
+import './../style/TodoItem.css';
 
 
 const TodoItem = ({ todo, todos, setTodos, onDelete }) => {

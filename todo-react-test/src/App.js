@@ -1,8 +1,8 @@
 // App.js
 import React, { useState, useEffect } from 'react';
-import './App.css';
-import TodoItem from './TodoItem';
-import { Tabs } from './CreateTab';
+import './style/App.css';
+import TodoItem from './components/TodoItem';
+import { Tabs } from './components/CreateTab';
 
 function App() {
   const [todo, setTodo] = useState({
