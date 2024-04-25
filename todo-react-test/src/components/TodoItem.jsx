@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import './../style/TodoItem.css';
 
-
-
 const TodoItem = ({ todo, todos, setTodos, onDelete, onAddFavorite }) => {
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 }); // マウス位置
     const [show, setShow] = useState(false);
+    const [isFavoriteClicked, setIsFavoriteClicked] = useState(false);
+
     // ドラッグ開始時の処理
     const handleDragStart = (event) => {
         setDragging(true);
         setMousePos({ x: event.clientX, y: event.clientY });
     };
+
     const addFavorite = () => {
-        console.log(todo);
+        setIsFavoriteClicked(true); // Mark favorite as clicked
         onAddFavorite(todo);
     };
 
-
     useEffect(() => {
-
         const handleDrag = (event) => {
             if (dragging) {
                 const windowWidth = window.innerWidth;
@@ -57,6 +56,7 @@ const TodoItem = ({ todo, todos, setTodos, onDelete, onAddFavorite }) => {
         const handleDragEnd = () => {
             setDragging(false);
         };
+
         if (dragging) {
             window.addEventListener('mousemove', handleDrag);
             window.addEventListener('mouseup', handleDragEnd);
@@ -64,17 +64,18 @@ const TodoItem = ({ todo, todos, setTodos, onDelete, onAddFavorite }) => {
             window.removeEventListener('mousemove', handleDrag);
             window.removeEventListener('mouseup', handleDragEnd);
         }
+
         return () => {
             window.removeEventListener('mousemove', handleDrag);
             window.removeEventListener('mouseup', handleDragEnd);
         };
-
-
     }, [dragging, mousePos, todo, todos, setTodos]);
+
     useEffect(() => {
         setShow(true); // Set show to true initially
         return;
     }, [todo]);
+
     const changeDateColor = (todo) => {
         const todoDate = new Date(todo.date);
         const currentDate = new Date();
@@ -94,9 +95,6 @@ const TodoItem = ({ todo, todos, setTodos, onDelete, onAddFavorite }) => {
         return bgColor;
     };
 
-
-    // ...
-
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -106,8 +104,12 @@ const TodoItem = ({ todo, todos, setTodos, onDelete, onAddFavorite }) => {
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const weekday = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()]; // 曜日を取得
         return `${year}年 ${month}月 ${day}日 (${weekday}) ${hours}:${minutes}`;
-      };
-      
+    };
+
+    // Function to handle animation end
+    const handleAnimationEnd = () => {
+        setIsFavoriteClicked(false); // Reset isFavoriteClicked state to false after animation ends
+    };
 
     return (
         <div
@@ -116,8 +118,7 @@ const TodoItem = ({ todo, todos, setTodos, onDelete, onAddFavorite }) => {
                 top: todo.position.y,
             }}
             className={`todo-item ${show ? 'show' : ''}`}
-            onMouseDown={handleDragStart
-            }
+            onMouseDown={handleDragStart}
         >
             <div className="todo-info">
                 <div className="todo-title">{todo.title}</div>
@@ -125,7 +126,7 @@ const TodoItem = ({ todo, todos, setTodos, onDelete, onAddFavorite }) => {
                 <div className="todo-contents">Contents<br /> {todo.contents}</div>
                 <div className='todo-duration'>所要時間 {todo.duration}</div>
                 <div className="todo-deleteButton" onClick={onDelete}>×</div>
-                <div className="todo-favoriteButton" onClick={addFavorite}>☆</div>
+                <div className={`todo-favoriteButton ${isFavoriteClicked ? 'clicked' : ''}`} onClick={addFavorite} onAnimationEnd={handleAnimationEnd}>★</div>
             </div>
         </div>
     );

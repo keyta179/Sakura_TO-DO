@@ -63,9 +63,10 @@ const Favorite = ({ favoriteTodos, setFavoriteTodos, onDragStart }) => {
             <h2>Favorite Todos</h2>
             {showPopup && (
                 <div className="popup-container">
-                    <div className="popup">
+                    <div className="popup-favorite">
                         <div className="popup-content">
-                            <p>このタスクを削除しますか？</p>
+                        <p>{`"${favoriteTodos[popupIndex].title}" を削除しますか？`}</p>
+
 
                             <button onClick={closePopup}>キャンセル</button>
                             <button onClick={() => {
@@ -91,10 +92,7 @@ const Favorite = ({ favoriteTodos, setFavoriteTodos, onDragStart }) => {
                     >
                         <div className="favorite-info">
                             <div className="favorite-title">{todo.title}</div>
-                            <div className="favorite-date">{formatDate(todo.date)}</div>
-                            <div className="favorite-deleteButton" onClick={onDeleteFavorite}>
-                                ×
-                            </div>
+                            <div className="favorite-date">締め切り{formatDate(todo.date)}</div>
                         </div>
                     </div>
                 ))}
