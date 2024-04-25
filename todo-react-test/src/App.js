@@ -116,7 +116,7 @@ function App() {
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const targetDayIndex = new Date(targetDate).getDay();
     let nextAvailableDate = new Date(targetDate);
-
+  
     // If the targetDate is today
     if (nextAvailableDate.toDateString() === new Date().toDateString()) {
       nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
@@ -126,14 +126,15 @@ function App() {
       nextAvailableDate = new Date();
       nextAvailableDate.setDate(nextAvailableDate.getDate() + (7 + targetDayIndex - new Date().getDay()) % 7);
     }
-
+  
     // Move to the next occurrence of the same weekday that is not in existingDates
     while (existingDates.includes(nextAvailableDate.toISOString())) {
       nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
     }
-
-    return nextAvailableDate.toLocaleDateString(); // 日付を文字列に変換して返す
+  
+    return nextAvailableDate; // 時間情報を保持したまま返す
   };
+  
 
 
 

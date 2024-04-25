@@ -56,6 +56,7 @@ const Favorite = ({ favoriteTodos, setFavoriteTodos, onDragStart }) => {
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const weekday = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()]; // 曜日を取得
+        console.log(hours, minutes, weekday);
         return `(${weekday}) ${hours}:${minutes}`;
       };
     return (
