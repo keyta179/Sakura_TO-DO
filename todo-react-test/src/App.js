@@ -174,7 +174,7 @@ function App() {
         </button>
         <form onSubmit={addTodo}>
           <input value={todo.title} type="text" name="title" onChange={handleChange} placeholder="Title" />
-          <input value={todo.contents} type="text" name="contents" onChange={handleChange} placeholder="Contents" />
+          <textarea value={todo.contents} type="text" name="contents" onChange={handleChange} placeholder="Contents" />
           <input value={todo.date} type="datetime-local" name="date" onChange={handleChange} />
           <input value={todo.duration} type='time' name="duration" onChange={handleChange} />
           <button type="submit">Add ToDo</button>
