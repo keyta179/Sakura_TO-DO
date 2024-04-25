@@ -1,16 +1,13 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './style/App.css';
 import TodoItem from './components/TodoItem';
 import { Tabs } from './components/CreateTab';
 import Favorite from './components/Favorite';
 import SettingsPopup from './components/SettingPopup';
 
-// settingsUtils.jsから関数をインポート
 import { loadSettingsFromLocalStorage, saveSettingsToLocalStorage } from './settingsUtils';
 
 function App() {
-  // State
   const [todo, setTodo] = useState({
     title: '',
     contents: '',
@@ -22,56 +19,49 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [favoriteTodos, setFavoriteTodos] = useState([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  // loadSettingsFromLocalStorageを使って初期値を設定
   const [settings, setSettings] = useState(loadSettingsFromLocalStorage());
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false);
-  // Local Storage
-  const loadTodosFromLocalStorage = () => {
+
+  const loadTodosFromLocalStorage = useCallback(() => {
     const savedTodos = localStorage.getItem('todos');
     if (savedTodos) {
       setTodos(JSON.parse(savedTodos));
     }
-  };
+  }, []);
 
-  const saveTodosToLocalStorage = (todos) => {
+  const saveTodosToLocalStorage = useCallback((todos) => {
     localStorage.setItem('todos', JSON.stringify(todos));
-  };
+  }, []);
 
-  // Settings
-  const toggleSettings = () => {
-    setIsSettingsOpen(!isSettingsOpen);
-  };
+  const toggleSettings = useCallback(() => {
+    setIsSettingsOpen(prevState => !prevState);
+  }, []);
 
-  const openSettingsPopup = () => {
+  const openSettingsPopup = useCallback(() => {
     setIsSettingsPopupOpen(true);
-  };
+  }, []);
 
-  const closeSettingsPopup = () => {
+  const closeSettingsPopup = useCallback(() => {
     setIsSettingsPopupOpen(false);
-  };
+  }, []);
 
+  const addFavoriteTodo = useCallback((newFavoriteTodo) => {
+    setFavoriteTodos(prevFavoriteTodos => [...prevFavoriteTodos, newFavoriteTodo]);
+  }, []);
 
-
-  // Favorite Todos
-  const addFavoriteTodo = (newFavoriteTodo) => {
-    const updatedFavoriteTodo = { ...newFavoriteTodo };
-    setFavoriteTodos([...favoriteTodos, updatedFavoriteTodo]);
-  };
-
-  // Event Handlers
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setTodo(prevTodo => ({
       ...prevTodo,
       [name]: value
     }));
-  };
+  }, []);
 
-  const addTodo = (e) => {
+  const addTodo = useCallback((e) => {
     e.preventDefault();
-    if (!todo.title) return;
-    setTodos([...todos, todo]);
+    if (!todo.title||!todo.date) return;
+    setTodos(prevTodos => [...prevTodos, todo]);
     setTodo({
       title: '',
       contents: '',
@@ -79,29 +69,27 @@ function App() {
       duration: '',
       position: { x: 0, y: 0 }
     });
-  };
+  }, [todo]);
 
-  const deleteTodo = (index) => {
-    const newTodos = todos.filter((_, i) => i !== index);
-    setTodos(newTodos);
-  };
+  const deleteTodo = useCallback((index) => {
+    setTodos(prevTodos => prevTodos.filter((_, i) => i !== index));
+  }, []);
 
-  const clearTodos = () => {
+  const clearTodos = useCallback(() => {
     setTodos([]);
-  };
+  }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  // Effects
-  useEffect(() => {
-    loadTodosFromLocalStorage();
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen(prevState => !prevState);
   }, []);
 
   useEffect(() => {
+    loadTodosFromLocalStorage();
+  }, [loadTodosFromLocalStorage]);
+
+  useEffect(() => {
     saveTodosToLocalStorage(todos);
-  }, [todos]);
+  }, [saveTodosToLocalStorage, todos]);
 
   useEffect(() => {
     const updateMousePosition = (e) => {
@@ -109,7 +97,9 @@ function App() {
     };
     window.addEventListener('mousemove', updateMousePosition);
 
-    return () => window.removeEventListener('mousemove', updateMousePosition);
+    return () => {
+      window.removeEventListener('mousemove', updateMousePosition);
+    };
   }, []);
 
   useEffect(() => {
@@ -122,15 +112,42 @@ function App() {
   useEffect(() => {
     localStorage.setItem('settings', JSON.stringify(settings));
   }, [settings]);
+  const getNextAvailableDate = (targetDate, existingDates) => {
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const targetDayIndex = new Date(targetDate).getDay();
+    let nextAvailableDate = new Date(targetDate);
 
-  // Rendering
+    // If the targetDate is today
+    if (nextAvailableDate.toDateString() === new Date().toDateString()) {
+      nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
+    }
+    // If the targetDate is in the past
+    else if (nextAvailableDate < new Date()) {
+      nextAvailableDate = new Date();
+      nextAvailableDate.setDate(nextAvailableDate.getDate() + (7 + targetDayIndex - new Date().getDay()) % 7);
+    }
+
+    // Move to the next occurrence of the same weekday that is not in existingDates
+    while (existingDates.includes(nextAvailableDate.toISOString())) {
+      nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
+    }
+
+    return nextAvailableDate.toLocaleDateString(); // 日付を文字列に変換して返す
+  };
+
+
+
+
   return (
     <div className="App"
       onDragOver={(e) => e.preventDefault()}
       onDrop={(e) => {
+        e.preventDefault();
         const newPosition = { x: e.clientX, y: e.clientY };
         const todo = JSON.parse(e.dataTransfer.getData('text/plain'));
-        setTodos([...todos, { ...todo, position: newPosition }]);
+        const existingDates = todos.map(todo => todo.date); // Get array of existing dates
+        const nextAvailableDate = getNextAvailableDate(todo.date, existingDates); // Calculate next available date
+        setTodos(prevTodos => [...prevTodos, { ...todo, date: nextAvailableDate, position: newPosition }]);
       }}
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
 
@@ -161,14 +178,14 @@ function App() {
           <input value={todo.duration} type='time' name="duration" onChange={handleChange} />
           <button type="submit">Add ToDo</button>
         </form>
-        {favoriteTodos.length > 0 && (
-          <Favorite favoriteTodos={favoriteTodos}
-            setFavoriteTodos={setFavoriteTodos}
-            onDragStart={(event, todo) => {
-              event.dataTransfer.setData('text/plain', JSON.stringify(todo));
-              toggleMenu();
-            }} />
-        )}
+        <Favorite
+          favoriteTodos={favoriteTodos}
+          setFavoriteTodos={setFavoriteTodos}
+          onDragStart={(event, todo) => {
+            event.dataTransfer.setData('text/plain', JSON.stringify(todo));
+            toggleMenu();
+          }}
+        />
       </div>
 
       {todos.map((todo, index) => (
