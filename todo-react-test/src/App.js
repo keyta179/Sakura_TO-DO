@@ -1,16 +1,10 @@
 // App.js
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
 import './style/App.css';
 import TodoItem from './components/TodoItem';
 import { Tabs } from './components/CreateTab';
+import Favorite from './components/Favorite';
 
-=======
-import './App.css';
-import TodoItem from './TodoItem';
-import { Tabs } from './CreateTab';
-import Favorite from './Favorite';
->>>>>>> 34b74d1ce516413e733d43da8dc38c16be0a524a
 function App() {
   const [todo, setTodo] = useState({
     title: '',
