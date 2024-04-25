@@ -1,18 +1,11 @@
-<<<<<<< HEAD:todo-react-test/src/Favorite.js
-import React, { useState } from 'react';
-import './Favorite.css';
-
+// Favorite.js
+import React from 'react';
+import { useState } from 'react';
+import './../style/Favorite.css';
 const Favorite = ({ favoriteTodos, onDragStart }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [popupIndex, setPopupIndex] = useState(null);
 
-=======
-// Favorite.js
-import React from 'react';
-import './../style/Favorite.css';
-
-const Favorite = ({ favoriteTodos }) => {
->>>>>>> 33b02944645bedc8dbf2500e145f3bc9eaf5f5d6:todo-react-test/src/components/Favorite.jsx
     const onDeleteFavorite = () => {
         console.log('delete');
     };
