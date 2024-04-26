@@ -205,7 +205,7 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, onDelete, onAddFavorite }) =
                 <div className="todo-info">
                     <div className="todo-title">{todo.title}</div>
                     <div className="todo-date" style={{ color: changeDateColor(todo) }}>{formatDate(todo.date)}</div>
-                    <div className="todo-contents">Contents<br /> {todo.contents}</div>
+                    <div className="todo-contents" dangerouslySetInnerHTML={{ __html: 'Contents<br />' + todo.contents.replace(/\n/g, "<br />") }}></div>
                     <div className='todo-duration'>所要時間 {todo.duration}</div>
                     <div className="todo-deleteButton" onClick={onDelete}>×</div>
                     <div className={`todo-favoriteButton ${isFavoriteClicked ? 'clicked' : ''}`} onClick={addFavorite} onAnimationEnd={handleAnimationEnd}>★</div>
