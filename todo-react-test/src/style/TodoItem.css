@@ -1,0 +1,161 @@
+.todo-item {
+  width: 200px;
+  height: 150px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+  position: absolute;
+  display: inline-block;
+  cursor: grab;
+  z-index: 0;
+  user-select: none;
+  transition: transform 0.3s ease-in-out;
+  /* 広がって登場するアニメーション */
+  transform: scale(0);
+}
+
+.todo-item.show {
+  transform: scale(1);
+}
+
+.todo-item.dragging {
+  cursor: grabbing;
+  z-index: 1;
+}
+
+.todo-info {
+  width: 100%;
+  height: 100%;
+
+}
+
+.todo-title {
+  text-align: left;
+  font-weight: bold;
+  font-size: large;
+}
+
+.todo-contents {
+  text-align: left;
+  margin-top: 5px;
+}
+
+.todo-date {
+  text-align: left;
+  margin-top: 5px;
+  font-size: 0.9rem;
+
+}
+
+.todo-duration {
+  text-align: right;
+  margin-top: 5px;
+  font-size: 0.9rem;
+
+}
+
+.todo-deleteButton {
+  position: absolute;
+  line-height: 0px;
+  /* padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 9px;
+    padding-bottom: 9px; */
+  height: 10px;
+  width: 10spx;
+  font-weight: bold;
+  font-size: 20px;
+  top: 10px;
+  /* 上からの位置調整 */
+  right: 5px;
+  /* 右からの位置調整 */
+}
+
+.todo-favoriteButton {
+  position: absolute;
+  line-height: 0px;
+  height: 20px;
+  width: 20px;
+  font-weight: bold;
+  font-size: 20px;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+  color: rgba(255, 255, 0, 0);
+  -webkit-text-stroke-width: 1px;
+  color: yellow;
+  -webkit-text-stroke-color: black;
+}
+
+.todo-favoriteButton.clicked {
+  animation: pulse 1s;
+  color: yellow;
+  text-shadow:
+    1px 1px 5px rgba(101, 101, 101, 0.758);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+.popup-menu-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* 背景を半透明の黒に設定 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  /* 他の要素よりも手前に表示 */
+}
+
+.popup-menu {
+  background-color: rgb(232, 231, 231);
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  /* 影を追加 */
+}
+
+.popup-menu-content {
+  text-align: center;
+}
+
+.popup-menu-content p {
+  margin-bottom: 20px;
+}
+
+.popup-menu-content button {
+  margin: 0 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-menu-content button:first-child {
+  background-color: #ddd;
+  /* キャンセルボタンの背景色 */
+}
+
+.popup-menu-content button:last-child {
+  background-color: #ff6347;
+  /* 削除ボタンの背景色 */
+  color: white;
+}
