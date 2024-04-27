@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './style/App.css';
 import TodoItem from './components/TodoItem';
-import { Tabs } from './components/CreateTab';
+import NarrowDown from './components/NarrowDown';
 import Favorite from './components/Favorite';
 import SettingsPopup from './components/SettingPopup';
 
@@ -163,7 +163,7 @@ function App() {
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
 
       <h1>ToDo List</h1>
-      <Tabs todos={todos} onChange={(category) => console.log(category)} />
+      <NarrowDown todos={todos} onChange={(category) => console.log(category)} />
       <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
         Settings
       </button>
