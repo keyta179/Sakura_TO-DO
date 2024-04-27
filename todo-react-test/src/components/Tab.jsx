@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import './../style/CreateTab.css'
+import './../style/Tab.css'
 
-export const Tabs = ({ onChange }) => {
+export const Tab = ({ onChange }) => {
   const [contents, setContents] = useState([
     { text: "Tab1", path: "/tab1" },
   ]);

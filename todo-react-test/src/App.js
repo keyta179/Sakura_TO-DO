@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './style/App.css';
 import TodoItem from './components/TodoItem';
-import { Tabs } from './components/CreateTab';
+import Tab from './components/Tab';
 import Favorite from './components/Favorite';
 import SettingsPopup from './components/SettingPopup';
 
