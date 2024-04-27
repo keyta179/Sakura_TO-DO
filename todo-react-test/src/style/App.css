@@ -1,6 +1,5 @@
 body {
-  min-width: 720px;
-  min-height: 480px;
+
 }
 header {
 	width: 100%;
@@ -25,21 +24,43 @@ header .title {
   outline: none;
 }
 .setting-popup{
+  font-size: 16px;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 20vw;
-  height: 80vh;
-  background-color: #ffffffa5;
+  width: 50vw;
+  height: auto;
+  background-color: #ffffffa9;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   z-index: 100;
   border-radius: 10px; /* 角を丸くする */
 }
 .setting-popup p{
-  margin-top: 0em;
+  margin: 0 0; /* 追加：上下のマージンを設定 */
 }
+/* Add these styles to your existing CSS file or component */
+.setting-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.setting-pair {
+  width: 45%; /* Adjust width as needed */
+}
+
+.setting-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.setting-row label {
+  margin-right: 10px;
+}
+
 .App {
   text-align: center;
   padding: 20px;
