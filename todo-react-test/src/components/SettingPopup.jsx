@@ -47,7 +47,7 @@ const SettingsPopup = ({ settings, setSettings, closeSettingsPopup }) => {
                 <input
                     type="range"
                     id="todoWidth"
-                    min="100"
+                    min="170"
                     max="300"
                     step="10"
                     value={settings.todoWidth}
@@ -58,7 +58,7 @@ const SettingsPopup = ({ settings, setSettings, closeSettingsPopup }) => {
                 <input
                     type="range"
                     id="todoHeight"
-                    min="100"
+                    min="110"
                     max="300"
                     step="10"
                     value={settings.todoHeight}

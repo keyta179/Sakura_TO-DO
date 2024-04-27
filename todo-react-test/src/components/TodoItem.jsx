@@ -113,7 +113,7 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const weekday = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()]; // 曜日を取得
-        return `${year}年 ${month}月 ${day}日 (${weekday}) ${hours}:${minutes}`;
+        return `${year}/ ${month}/ ${day}/ (${weekday}) ${hours}:${minutes}`;
     };
 
     // Function to handle animation end
@@ -215,9 +215,11 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
             >
                 <div className="todo-info">
                     <div className="todo-title">{todo.title}</div>
-                    <div className="todo-date">{formatDate(todo.date)}   所要時間 {todo.duration}</div>
-                    
-                    <div className="todo-contents"> {convertNewlinesToBr(todo.contents)}</div>
+                    <div className="todo-date">{formatDate(todo.date)}   </div>
+                    <div className="todo-duration">所要時間 {todo.duration}</div>
+                    <div style={{
+                    height: todoHeight - 60,
+                }}className="todo-contents"> {convertNewlinesToBr(todo.contents)}</div>
                     
                     <div className="todo-deleteButton" onClick={onDelete}>×</div>
                     <div className={`todo-favoriteButton ${isFavoriteClicked ? 'clicked' : ''}`} onClick={addFavorite} onAnimationEnd={handleAnimationEnd}>★</div>

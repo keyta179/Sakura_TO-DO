@@ -38,32 +38,27 @@
 
 .todo-contents {
   text-align: left;
-  margin-top: 5px;
   white-space: pre-wrap;
   word-wrap: break-word;
-  overflow: hidden; /* テキストがはみ出た場合に省略記号を表示 */
-  text-overflow: ellipsis; /* 省略記号を追加 */
+  overflow: hidden;
+  height: 100%;
 }
 
 
 .todo-date {
   text-align: left;
-  margin-top: 2px;
+
   font-size: 0.9rem;
 
 }
 
 .todo-duration {
   text-align: right;
-  margin-top: 0px;
+
   font-size: 0.9rem;
 
 }
 
-.todo-detail {
-  display: inline-block;
-  margin-right: 2px;
-}
 
 .todo-deleteButton {
   position: absolute;
