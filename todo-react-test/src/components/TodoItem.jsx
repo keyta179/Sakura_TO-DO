@@ -1,24 +1,33 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './../style/TodoItem.css';
+import { FilterTodosByCategory } from './NarrowDown';
 
-const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDelete, onAddFavorite }) => {
+const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDelete, onAddFavorite, selectedCategory }) => {
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 }); // マウス位置
     const [show, setShow] = useState(false);
     const [isFavoriteClicked, setIsFavoriteClicked] = useState(false);
     const [isTodoMenuOpened, setIsTodoMenuOpened] = useState(false);
-    const [selectedTodo, setSelectedTodo] = useState(null);
+    const [menuTodo, setMenuTodo] = useState({
+        title: '',
+        category: '',
+        contents: '',
+        date: '',
+        duration: '',
+    });
+    const [selectedTodo, setSelectedTodo] = useState({
+        title: '',
+        category: '',
+        contents: '',
+        date: '',
+        duration: '',
+    });
+
     // ドラッグ開始時の処理
     const handleDragStart = (event) => {
         setDragging(true);
         setMousePos({ x: event.clientX, y: event.clientY });
     };
-    const [menuTodo, setMenuTodo] = useState({
-        title: '',
-        contents: '',
-        date: '',
-        duration: '',
-    });
 
     const addFavorite = () => {
         setIsFavoriteClicked(true); // Mark favorite as clicked
@@ -83,6 +92,8 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
         return;
     }, [todo]);
 
+    const filteredTodos = FilterTodosByCategory({ todos, category: selectedCategory });
+
     const changeDateColor = (todo) => {
         const todoDate = new Date(todo.date);
         const currentDate = new Date();
@@ -121,7 +132,6 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
         setIsFavoriteClicked(false); // Reset isFavoriteClicked state to false after animation ends
     };
     const openTodoMenu = (todo) => {
-        setSelectedTodo(todo);
         setIsTodoMenuOpened(true);
     }
     const closePopupMenu = () => {
@@ -137,36 +147,16 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
     const updateTodo = (e) => {
         e.preventDefault();
         if (!menuTodo.title || !menuTodo.date) return;
-        setTodos(prevTodos => prevTodos.map((item) => {
-            if (item === selectedTodo) {
-                return {
-                    ...item,
-                    title: menuTodo.title,
-                    contents: menuTodo.contents,
-                    date: menuTodo.date,
-                    duration: menuTodo.duration,
-                };
-            }
-            return item;
-        }));
         setMenuTodo({
             title: '',
+            category: '',
             contents: '',
             date: '',
             duration: '',
         });
         setIsTodoMenuOpened(false);
     };
-    useEffect(() => {
-        if (selectedTodo) {
-            setMenuTodo({
-                title: selectedTodo.title,
-                contents: selectedTodo.contents,
-                date: selectedTodo.date,
-                duration: selectedTodo.duration,
-            });
-        }
-    }, [selectedTodo]);
+    
     function convertNewlinesToBr(text) {
         // 改行文字を <br> タグに変換して返す
         return text.split('\n').map((line, index) => (
@@ -178,54 +168,53 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
     }
     return (
         <div>
-            <div>
-                {isTodoMenuOpened && (
-                    <div className="popup-container">
-                        <div className="popup-menu">
-                            <div className="popup-menu-content">
-                                <p>{`"${selectedTodo.title}"の更新 `}</p>
-                                <form onSubmit={updateTodo}>
-                                    <input value={menuTodo.title} type="text" name="title" onChange={handleMenuChange} placeholder="Title" />
-                                    <p><textarea value={menuTodo.contents} type="text" name="contents" onChange={handleMenuChange} placeholder="Contents" /></p>
-                                    <p><input value={menuTodo.date} type="datetime-local" name="date" onChange={handleMenuChange} /></p>
-                                    <input value={menuTodo.duration} type='time' name="duration" onChange={handleMenuChange} />
-                                    <button type="submit">Update ToDo</button>
-                                </form>
-
-                                <button onClick={closePopupMenu}>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                )}
+    {filteredTodos.map((filteredTodo, index) => (
+      <div key={index}>
+        {isTodoMenuOpened && (
+          <div className="popup-container">
+            <div className="popup-menu">
+              <div className="popup-menu-content">
+                <p>{`"${filteredTodo.title}"の更新 `}</p>
+                <form onSubmit={updateTodo}>
+                  <input value={filteredTodo.title} type="text" name="title" onChange={handleMenuChange} placeholder="Title" />
+                  <p><textarea value={filteredTodo.contents} type="text" name="contents" onChange={handleMenuChange} placeholder="Contents" /></p>
+                  <p><input value={filteredTodo.date} type="datetime-local" name="date" onChange={handleMenuChange} /></p>
+                  <input value={filteredTodo.duration} type='time' name="duration" onChange={handleMenuChange} />
+                  <button type="submit">Update ToDo</button>
+                </form>
+                <button onClick={closePopupMenu}>Close</button>
+              </div>
             </div>
-            <div
-                style={{
-                    left: todo.position.x,
-                    top: todo.position.y,
-                    backgroundColor: changeDateColor(todo), // 背景色を設定
-                    width: todoWidth,
-                    height: todoHeight,
-                }}
-                className={`todo-item ${show ? 'show' : ''}`}
-                onMouseDown={handleDragStart}
-                onContextMenu={(e) => {
-                    e.preventDefault();
-                    openTodoMenu(todo);
-                }}
-            >
-                <div className="todo-info">
-                    <div className="todo-title">{todo.title}</div>
-                    <div className="todo-date">{formatDate(todo.date)}   </div>
-                    <div className="todo-duration">所要時間 {todo.duration}</div>
-                    <div style={{
-                    height: todoHeight - 60,
-                }}className="todo-contents"> {convertNewlinesToBr(todo.contents)}</div>
-                    
-                    <div className="todo-deleteButton" onClick={onDelete}>×</div>
-                    <div className={`todo-favoriteButton ${isFavoriteClicked ? 'clicked' : ''}`} onClick={addFavorite} onAnimationEnd={handleAnimationEnd}>★</div>
-                </div>
-            </div>
+          </div>
+        )}
+        <div
+          style={{
+            left: filteredTodo.position.x,
+            top: filteredTodo.position.y,
+            backgroundColor: changeDateColor(filteredTodo), // 背景色を設定
+            width: todoWidth,
+            height: todoHeight,
+          }}
+          className={`todo-item ${show ? 'show' : ''}`}
+          onMouseDown={handleDragStart}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            openTodoMenu(filteredTodo);
+          }}
+        >
+          <div className="todo-info">
+            <div className="todo-title">{filteredTodo.title}</div>
+            <div className="todo-category">{filteredTodo.category}</div>
+            <div className="todo-date">{formatDate(filteredTodo.date)}   </div>
+            <div className="todo-duration">所要時間 {filteredTodo.duration}</div>
+            <div style={{ height: todoHeight - 60 }} className="todo-contents">{convertNewlinesToBr(filteredTodo.contents)}</div>
+            <div className="todo-deleteButton" onClick={onDelete}>×</div>
+            <div className={`todo-favoriteButton ${isFavoriteClicked ? 'clicked' : ''}`} onClick={addFavorite} onAnimationEnd={handleAnimationEnd}>★</div>
+          </div>
         </div>
+      </div>
+    ))}
+  </div>
     );
 
 };
