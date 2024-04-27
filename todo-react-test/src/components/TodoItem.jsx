@@ -88,7 +88,7 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
         const currentDate = new Date();
         const timeDiff = todoDate.getTime() - currentDate.getTime();
         const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    
+
         // 各日付の背景色を定義
         const colors = {
             '-1': '#ff2b2b',   // 当日及び当日より前
@@ -97,13 +97,13 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
             '2': '#ffd5d5',    // 三日前
             '3': '#e9e9e9',    // 四日前及びそれ以上
         };
-    
+
         // daysDiffが0未満の場合はすべて当日と同じ色に設定
         const colorIndex = daysDiff < 0 ? 0 : Math.min(daysDiff, 3);
-    
+
         return colors[colorIndex.toString()];
     };
-    
+
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -167,7 +167,15 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
             });
         }
     }, [selectedTodo]);
-
+    function convertNewlinesToBr(text) {
+        // 改行文字を <br> タグに変換して返す
+        return text.split('\n').map((line, index) => (
+            <span key={index}>
+                {line}
+                {index !== text.split('\n').length - 1 && <br />}
+            </span>
+        ));
+    }
     return (
         <div>
             <div>
@@ -195,6 +203,8 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
                     left: todo.position.x,
                     top: todo.position.y,
                     backgroundColor: changeDateColor(todo), // 背景色を設定
+                    width: todoWidth,
+                    height: todoHeight,
                 }}
                 className={`todo-item ${show ? 'show' : ''}`}
                 onMouseDown={handleDragStart}
@@ -206,7 +216,7 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
                 <div className="todo-info">
                     <div className="todo-title">{todo.title}</div>
                     <div className="todo-date">{formatDate(todo.date)}</div>
-                    <div className="todo-contents">Contents<br /> {todo.contents}</div>
+                    <div className="todo-contents"> {convertNewlinesToBr(todo.contents)}</div>
                     <div className='todo-duration'>所要時間 {todo.duration}</div>
                     <div className="todo-deleteButton" onClick={onDelete}>×</div>
                     <div className={`todo-favoriteButton ${isFavoriteClicked ? 'clicked' : ''}`} onClick={addFavorite} onAnimationEnd={handleAnimationEnd}>★</div>
