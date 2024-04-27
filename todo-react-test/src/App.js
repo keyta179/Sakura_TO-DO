@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './style/App.css';
 import TodoItem from './components/TodoItem';
-import { Tabs } from './components/CreateTab';
+import NarrowDown from './components/NarrowDown';
 import Favorite from './components/Favorite';
 import SettingsPopup from './components/SettingPopup';
 
@@ -10,6 +10,7 @@ import { loadSettingsFromLocalStorage, saveSettingsToLocalStorage } from './sett
 function App() {
   const [todo, setTodo] = useState({
     title: '',
+    category: '',
     contents: '',
     date: '',
     duration: '',
@@ -29,6 +30,7 @@ function App() {
   });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const loadTodosFromLocalStorage = useCallback(() => {
     const savedTodos = localStorage.getItem('todos');
@@ -71,6 +73,7 @@ function App() {
     setTodos(prevTodos => [...prevTodos, todo]);
     setTodo({
       title: '',
+      category: '',
       contents: '',
       date: '',
       duration: '',
@@ -161,7 +164,7 @@ function App() {
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
 
       <h1>ToDo List</h1>
-      <Tabs onChange={(tab) => console.log(tab)} />
+      <NarrowDown todos={todos} onChange={(category) => console.log(category)} />
       <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
         Settings
       </button>
@@ -182,6 +185,7 @@ function App() {
         </button>
         <form onSubmit={addTodo}>
           <input value={todo.title} type="text" name="title" onChange={handleChange} placeholder="Title" />
+          <input value={todo.category} type="text" name="category" onChange={handleChange} placeholder="Category" />
           <textarea value={todo.contents} type="text" name="contents" onChange={handleChange} placeholder="Contents" />
           <input value={todo.date} type="datetime-local" name="date" onChange={handleChange} />
           <input value={todo.duration} type='time' name="duration" onChange={handleChange} />

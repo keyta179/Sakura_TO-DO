@@ -18,7 +18,13 @@
     "default_icon": "logo192.png",
     "default_popup": "index.html"
   },
-  "permissions": ["activeTab", "scripting", "webNavigation", "notifications"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "webNavigation", 
+    "notifications",
+    "storage"
+  ],
   "host_permissions": [
     "*://*.youtube.com/*",
     "*://*.twitter.com/*"
