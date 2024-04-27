@@ -26,8 +26,8 @@
   animation: fuwafuwa 3s ease-in-out infinite alternate;
   display: inline-block;
   transition: 1.5s ease-in-out;
-  width: 70px;
-  height: 70px;
+  /* width: 70px;
+  height: 70px; */
   margin-top: 15px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.652);
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);

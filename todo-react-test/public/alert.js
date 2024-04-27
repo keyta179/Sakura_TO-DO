@@ -5,4 +5,6 @@ chrome.storage.local.get("flagDate", function (result) {
         alert('やらなきゃいけないことは終わったの?');
         chrome.storage.local.set({'flagDate': nowDate[0]}, function() {});
     }
+    // const savedTodos = localStorage.getItem('todos');
+    // setTodos(JSON.parse(savedTodos));
 });
