@@ -18,8 +18,37 @@
 
 .todo-item.show {
   transform: scale(1);
+  transition-delay: 0s; /* アニメーション遅延をリセット */
 }
 
+.todo-item.hide {
+  opacity: 0;
+  animation: fuwafuwa 3s ease-in-out infinite alternate;
+  display: inline-block;
+  transition: 1.5s ease-in-out;
+  /* width: 70px;
+  height: 70px; */
+  margin-top: 15px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.652);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+@keyframes fuwafuwa {
+  0% {
+    transform:translate(0, 0px) rotate(0deg);
+  }
+  25% {
+    transform:translate(0, 30px) rotate(-7deg);
+  }
+  50% {
+    transform:translate(0, 60px) rotate(2deg);
+  }
+  75% {
+    transform:translate(0, 90px) rotate(10deg);
+  }
+  100% {
+    transform:translate(0, 120px) rotate(0deg);
+  }
+}
 .todo-item.dragging {
   cursor: grabbing;
   z-index: 1;

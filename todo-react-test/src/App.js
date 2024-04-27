@@ -84,9 +84,9 @@ function App() {
 
   
 
-  const deleteTodo = useCallback((index) => {
-    setTodos(prevTodos => prevTodos.filter((_, i) => i !== index));
-  }, []);
+  const deleteTodo = useCallback((deletedTodo) => {
+    setTodos(prevTodos => prevTodos.filter(todo => todo !== deletedTodo));
+}, []);
 
   const clearTodos = useCallback(() => {
     setTodos([]);
@@ -102,6 +102,7 @@ function App() {
 
   useEffect(() => {
     saveTodosToLocalStorage(todos);
+   
   }, [saveTodosToLocalStorage, todos]);
 
   useEffect(() => {
@@ -193,7 +194,7 @@ function App() {
           setTodos={setTodos}
           todoWidth={settings.todoWidth}
           todoHeight={settings.todoHeight}
-          onDelete={() => deleteTodo(index)}
+          onDelete={() => deleteTodo(todo)}
           onAddFavorite={() => addFavoriteTodo(todo)}
           selectedCategory={selectedCategory}
         />
