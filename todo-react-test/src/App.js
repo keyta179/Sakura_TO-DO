@@ -15,11 +15,18 @@ function App() {
     duration: '',
     position: { x: 0, y: 0 }
   });
+  let todoWidth = 200;
+  let todoHeight = 150;
   const [todos, setTodos] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [favoriteTodos, setFavoriteTodos] = useState([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [settings, setSettings] = useState(loadSettingsFromLocalStorage());
+  const [settings, setSettings] = useState({
+    bodyWidth: loadSettingsFromLocalStorage().bodyWidth,
+    bodyHeight: loadSettingsFromLocalStorage().bodyHeight,
+    todoWidth: loadSettingsFromLocalStorage().todoWidth,
+    todoHeight: loadSettingsFromLocalStorage().todoHeight
+  });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false);
 
@@ -60,7 +67,7 @@ function App() {
 
   const addTodo = useCallback((e) => {
     e.preventDefault();
-    if (!todo.title||!todo.date) return;
+    if (!todo.title || !todo.date) return;
     setTodos(prevTodos => [...prevTodos, todo]);
     setTodo({
       title: '',
@@ -116,7 +123,7 @@ function App() {
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const targetDayIndex = new Date(targetDate).getDay();
     let nextAvailableDate = new Date(targetDate);
-  
+
     // If the targetDate is today
     if (nextAvailableDate.toDateString() === new Date().toDateString()) {
       nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
@@ -126,15 +133,15 @@ function App() {
       nextAvailableDate = new Date();
       nextAvailableDate.setDate(nextAvailableDate.getDate() + (7 + targetDayIndex - new Date().getDay()) % 7);
     }
-  
+
     // Move to the next occurrence of the same weekday that is not in existingDates
     while (existingDates.includes(nextAvailableDate.toISOString())) {
       nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
     }
-  
+
     return nextAvailableDate; // 時間情報を保持したまま返す
   };
-  
+
 
 
 
@@ -196,6 +203,8 @@ function App() {
           todo={todo}
           todos={todos}
           setTodos={setTodos}
+          todoWidth={settings.todoWidth}
+          todoHeight={settings.todoHeight}
           onDelete={() => deleteTodo(index)}
           onAddFavorite={() => addFavoriteTodo(todo)}
         />

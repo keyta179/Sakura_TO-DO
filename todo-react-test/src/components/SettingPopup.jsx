@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SettingsPopup = ({ settings,setSettings, closeSettingsPopup }) => {
+const SettingsPopup = ({ settings, setSettings, closeSettingsPopup }) => {
     const changeBodySize = (width, height) => {
         setSettings(prevSettings => ({
             ...prevSettings,
@@ -8,7 +8,14 @@ const SettingsPopup = ({ settings,setSettings, closeSettingsPopup }) => {
             bodyHeight: height
         }));
     };
-    
+    const changeTodoSize = (width, height) => {
+        setSettings(prevSettings => ({
+            ...prevSettings,
+            todoWidth: width,
+            todoHeight: height
+        }));
+    };
+
     return (
         <div className="popup">
             <div className="popup-content">
@@ -35,6 +42,29 @@ const SettingsPopup = ({ settings,setSettings, closeSettingsPopup }) => {
                     value={settings.bodyHeight}
                     onChange={(e) => changeBodySize(settings.bodyWidth, Number(e.target.value))}
                 />
+                <p></p>
+                <label htmlFor="todoWidth">Todo Width:</label>
+                <input
+                    type="range"
+                    id="todoWidth"
+                    min="100"
+                    max="300"
+                    step="10"
+                    value={settings.todoWidth}
+                    onChange={(e) => changeTodoSize(Number(e.target.value), settings.todoHeight)}
+                />
+
+                <label htmlFor="todoHeight">Todo Height:</label>
+                <input
+                    type="range"
+                    id="todoHeight"
+                    min="100"
+                    max="300"
+                    step="10"
+                    value={settings.todoHeight}
+                    onChange={(e) => changeTodoSize(settings.todoWidth, Number(e.target.value))}
+                />
+
                 <button onClick={closeSettingsPopup}>Close</button>
             </div>
         </div>

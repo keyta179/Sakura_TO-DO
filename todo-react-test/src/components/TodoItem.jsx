@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './../style/TodoItem.css';
 
-const TodoItem = ({ todo, todos, setTodo, setTodos, onDelete, onAddFavorite }) => {
+const TodoItem = ({ todo, todos, setTodo, setTodos,todoWidth,todoHeight, onDelete, onAddFavorite }) => {
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 }); // マウス位置
     const [show, setShow] = useState(false);
@@ -191,6 +191,8 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, onDelete, onAddFavorite }) =
                 style={{
                     left: todo.position.x,
                     top: todo.position.y,
+                    width: todoWidth,
+                    height: todoHeight,
                 }}
                 className={`todo-item ${show ? 'show' : ''}`}
                 onMouseDown={handleDragStart}
@@ -205,7 +207,7 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, onDelete, onAddFavorite }) =
                 <div className="todo-info">
                     <div className="todo-title">{todo.title}</div>
                     <div className="todo-date" style={{ color: changeDateColor(todo) }}>{formatDate(todo.date)}</div>
-                    <div className="todo-contents" dangerouslySetInnerHTML={{ __html: 'Contents<br />' + todo.contents.replace(/\n/g, "<br />") }}></div>
+                    <div className="todo-contents" dangerouslySetInnerHTML={{ __html:  todo.contents.replace(/\n/g, "<br />") }}></div>
                     <div className='todo-duration'>所要時間 {todo.duration}</div>
                     <div className="todo-deleteButton" onClick={onDelete}>×</div>
                     <div className={`todo-favoriteButton ${isFavoriteClicked ? 'clicked' : ''}`} onClick={addFavorite} onAnimationEnd={handleAnimationEnd}>★</div>
