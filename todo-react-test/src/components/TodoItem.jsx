@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './../style/TodoItem.css';
 
-const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDelete, onAddFavorite }) => {
+const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDelete, onAddFavorite }) => {
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 }); // マウス位置
     const [show, setShow] = useState(false);
+    const [hide, setHide] = useState(false);
     const [isFavoriteClicked, setIsFavoriteClicked] = useState(false);
     const [isTodoMenuOpened, setIsTodoMenuOpened] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState(null);
+    const [isDeleteNow, setIsDeleteNow] = useState(false);
+    
     // ドラッグ開始時の処理
     const handleDragStart = (event) => {
         setDragging(true);
@@ -176,6 +179,23 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
             </span>
         ));
     }
+    const onDeleteWait = () => {
+        setHide(true); // hideをtrueに設定
+        setIsDeleteNow(true);
+    };
+    useEffect(() => {
+        console.log(`todo-item ${hide ? 'hide' : show ? 'show' : ''}`);
+        if (!hide) return;
+        if (isDeleteNow) return;
+        setTimeout(() => {
+            console.log(`todo-item ${hide ? 'hide' : show ? 'show' : ''}`);
+            console.log(todo);
+            onDelete(todo);
+            setIsDeleteNow(false);
+        }, 3000);
+        
+    }, [hide]);
+    
     return (
         <div>
             <div>
@@ -206,7 +226,8 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
                     width: todoWidth,
                     height: todoHeight,
                 }}
-                className={`todo-item ${show ? 'show' : ''}`}
+                className={`todo-item ${hide ? 'hide' : show ? 'show' : ''}`}
+                
                 onMouseDown={handleDragStart}
                 onContextMenu={(e) => {
                     e.preventDefault();
@@ -221,7 +242,7 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
                     height: todoHeight - 60,
                 }}className="todo-contents"> {convertNewlinesToBr(todo.contents)}</div>
                     
-                    <div className="todo-deleteButton" onClick={onDelete}>×</div>
+                    <div className="todo-deleteButton" onClick={onDeleteWait}>×</div>
                     <div className={`todo-favoriteButton ${isFavoriteClicked ? 'clicked' : ''}`} onClick={addFavorite} onAnimationEnd={handleAnimationEnd}>★</div>
                 </div>
             </div>
