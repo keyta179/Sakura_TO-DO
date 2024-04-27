@@ -1,21 +1,27 @@
 import React, { useState } from "react";
-import './../style/Tab.css'
+import './../style/CreateTab.css'
 
-export const Tab = ({ onChange }) => {
+export const Tabs = ({ todos, onChange }) => {
   const [contents, setContents] = useState([
-    { text: "Tab1", path: "/tab1" },
+    { text: "all", path: "/all" },
   ]);
   const [tab, setTab] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState(""); // 選択されたカテゴリを格納するstate
+
+  // todosからユニークなカテゴリを抽出
+  const categories = [...new Set(todos.map(todo => todo.category))];
 
   // 新しいタブを追加する関数
   const addTab = () => {
-    const newTab = {
-      text: `Tab${contents.length + 1}`,
-      path: `/tab${contents.length + 1}`,
-    };
-    setContents([...contents, newTab]);
-    setTab(contents.length); // 新しいタブが追加されたらそのタブを選択する
-    onChange(tab);
+    if (selectedCategory) { // 選択されたカテゴリがある場合のみタブを追加
+      const newTab = {
+        text: selectedCategory, // カテゴリ名をタブのテキストとする
+        path: `/${selectedCategory.toLowerCase()}`, // カテゴリ名を小文字化してパスにする
+      };
+      setContents([...contents, newTab]);
+      setTab(contents.length); // 新しいタブが追加されたらそのタブを選択する
+      onChange(tab);
+    }
   };
 
   // タブを削除する関数
@@ -36,30 +42,29 @@ export const Tab = ({ onChange }) => {
   return (
     <div className={"contents-tab"}>
       <div className={"contents-tab-button-wrapper"}>
-        {contents.map((content, index) => (
+      {categories.map((category, index) => (
           <div
             key={index}
             onClick={() => {
-              setTab(index);
-              onChange(index); // タブがクリックされたときにonChangeを呼び出す
+              onChange(category); // 選択されたカテゴリをonChange関数に渡す
             }}
             onContextMenu={(e) => {
               e.preventDefault(); // デフォルトの右クリックメニューを無効にする
               removeTab(index); // 右クリックでタブを削除する
             }}
-            className={
-              index === tab
-                ? "contents-tab-button-selected"
-                : "contents-tab-button"
-            }
           >
-            {content.text}
+            {category}
           </div>
         ))}
       </div>
 
       <div className={"contents-tab-underline"} />
-      <button onClick={addTab} className="add-tab-button">Add Tab</button> {/* 新しいタブを追加するボタン */}
+      <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+        <option value="">カテゴリを選択</option>
+        {categories.map((category, index) => (
+          <option key={index} value={category}>{category}</option>
+        ))}
+      </select>
     </div>
   );
 };
