@@ -20,7 +20,8 @@
   },
   "permissions": ["activeTab", "scripting", "webNavigation", "notifications"],
   "host_permissions": [
-    "*://*.youtube.com/*"
+    "*://*.youtube.com/*",
+    "*://*.twitter.com/*"
   ],
   "background": {
     "service_worker": "background.js"
