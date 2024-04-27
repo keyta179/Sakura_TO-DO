@@ -158,7 +158,9 @@ function App() {
 
 
   return (
-    <div className="App"
+    <div>
+      <header>ToDo List</header>
+      <div className="App"
       onDragOver={(e) => e.preventDefault()}
       onDrop={(e) => {
         e.preventDefault();
@@ -169,8 +171,8 @@ function App() {
         setTodos(prevTodos => [...prevTodos, { ...todo,id: uuidv4(), date: nextAvailableDate, position: newPosition }]);
       }}
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
-
-      <h1>ToDo List</h1>
+        
+      
       <NarrowDown todos={todos} onChange={(category) => console.log(category)} />
       <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
         Settings
@@ -222,6 +224,8 @@ function App() {
         />
       ))}
     </div>
+    </div>
+    
   );
 }
 

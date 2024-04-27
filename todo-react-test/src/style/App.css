@@ -2,7 +2,15 @@ body {
   min-width: 720px;
   min-height: 480px;
 }
-
+header {
+	width: 100%;
+	line-height: 35px;
+	background: #ff7402;
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  
+}
 .App {
   text-align: center;
   padding: 20px;
@@ -82,7 +90,7 @@ li:hover {
 }
 .setting-button{
   position: absolute;
-  top: 5px;
+  top: 0px;
   left: 0px;
   padding: 10px;
   cursor: pointer;
