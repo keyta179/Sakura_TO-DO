@@ -41,29 +41,13 @@ export const Tabs = ({ todos, onChange }) => {
 
   return (
     <div className={"contents-tab"}>
-      <div className={"contents-tab-button-wrapper"}>
-      {categories.map((category, index) => (
-          <div
-            key={index}
-            onClick={() => {
-              onChange(category); // 選択されたカテゴリをonChange関数に渡す
-            }}
-            onContextMenu={(e) => {
-              e.preventDefault(); // デフォルトの右クリックメニューを無効にする
-              removeTab(index); // 右クリックでタブを削除する
-            }}
-          >
-            {category}
-          </div>
-        ))}
-      </div>
-
-      <div className={"contents-tab-underline"} />
       <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-        <option value="">カテゴリを選択</option>
-        {categories.map((category, index) => (
-          <option key={index} value={category}>{category}</option>
-        ))}
+            <option value="">カテゴリを選択</option>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
       </select>
     </div>
   );
