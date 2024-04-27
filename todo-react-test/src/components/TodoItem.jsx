@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './../style/TodoItem.css';
 
-const TodoItem = ({ todo, todos, setTodo, setTodos,todoWidth,todoHeight, onDelete, onAddFavorite }) => {
+const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDelete, onAddFavorite }) => {
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 }); // マウス位置
     const [show, setShow] = useState(false);
@@ -88,19 +88,22 @@ const TodoItem = ({ todo, todos, setTodo, setTodos,todoWidth,todoHeight, onDelet
         const currentDate = new Date();
         const timeDiff = todoDate.getTime() - currentDate.getTime();
         const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        let colorIntensity = 0;
-
-        if (daysDiff <= 3) {
-            colorIntensity = Math.min(Math.abs(daysDiff) / 3, 1);
-        } else {
-            colorIntensity = Math.min((Math.abs(daysDiff) - 3) / 2, 1);
-        }
-
-        const red = Math.round(255 * (1 - colorIntensity));
-        const green = Math.round(255 * colorIntensity);
-        const bgColor = `rgb(${red}, ${green}, 0)`;
-        return bgColor;
+    
+        // 各日付の背景色を定義
+        const colors = {
+            '-1': '#ff2b2b',   // 当日及び当日より前
+            '0': '#ff2b2b',    // 当日及び当日より前
+            '1': '#ff8080',    // 二日前
+            '2': '#ffd5d5',    // 三日前
+            '3': '#e9e9e9',    // 四日前及びそれ以上
+        };
+    
+        // daysDiffが0未満の場合はすべて当日と同じ色に設定
+        const colorIndex = daysDiff < 0 ? 0 : Math.min(daysDiff, 3);
+    
+        return colors[colorIndex.toString()];
     };
+    
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -191,28 +194,23 @@ const TodoItem = ({ todo, todos, setTodo, setTodos,todoWidth,todoHeight, onDelet
                 style={{
                     left: todo.position.x,
                     top: todo.position.y,
-                    width: todoWidth,
-                    height: todoHeight,
+                    backgroundColor: changeDateColor(todo), // 背景色を設定
                 }}
                 className={`todo-item ${show ? 'show' : ''}`}
                 onMouseDown={handleDragStart}
                 onContextMenu={(e) => {
                     e.preventDefault();
-                    console.log("aaaa");
-                    openTodoMenu(todo); // 右クリックでタブを削除する
+                    openTodoMenu(todo);
                 }}
             >
-
-
                 <div className="todo-info">
                     <div className="todo-title">{todo.title}</div>
-                    <div className="todo-date" style={{ color: changeDateColor(todo) }}>{formatDate(todo.date)}</div>
-                    <div className="todo-contents" dangerouslySetInnerHTML={{ __html:  todo.contents.replace(/\n/g, "<br />") }}></div>
+                    <div className="todo-date">{formatDate(todo.date)}</div>
+                    <div className="todo-contents">Contents<br /> {todo.contents}</div>
                     <div className='todo-duration'>所要時間 {todo.duration}</div>
                     <div className="todo-deleteButton" onClick={onDelete}>×</div>
                     <div className={`todo-favoriteButton ${isFavoriteClicked ? 'clicked' : ''}`} onClick={addFavorite} onAnimationEnd={handleAnimationEnd}>★</div>
                 </div>
-
             </div>
         </div>
     );
