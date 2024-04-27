@@ -10,15 +10,26 @@ export const FilterTodosByCategory = ({ todos, category }) => {
 }
 
 
-// export const NarrowDown = ({ todos, onChange }) => {
+const NarrowDown = ({ todos, onChange }) => {
   
-//   const handleChange = (e) => {
-//     const category = e.target.value;
-//     setSelectedCategory(category);
-//     onChange(category); // 選択されたカテゴリを親コンポーネントに渡す
-//   };
+  const [selectedCategory, setSelectedCategory] = useState(""); // 選択されたカテゴリを格納するstate
 
-//   return selectedCategory;
-// };
+  // todosからユニークなカテゴリを抽出
+  const categories = [...new Set(todos.map(todo => todo.category))];
 
-// export default NarrowDown;
+
+  return (
+    <div className={"contents-tab"}>
+      <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+            <option value="">カテゴリを選択</option>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
+      </select>
+    </div>
+  );
+};
+
+export default NarrowDown;

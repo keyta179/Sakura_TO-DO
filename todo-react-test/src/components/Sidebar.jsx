@@ -1,20 +1,16 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import Favorite from './components/Favorite';
+import Favorite from './Favorite';
 
-export const Sidebar = () => {
+export const Sidebar = ({ todo, todos, setTodo ,setTodos }) => {
 
-    // Todo
-    const [todo, setTodo] = useState({
-        title: '',
-        category: '',
-        contents: '',
-        date: '',
-        duration: '',
-        position: { x: 0, y: 0 }
-    });
     // Menu bar が開いているかどうか
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    // お気に入り登録されたTodoの配列
+    const [favoriteTodos, setFavoriteTodos] = useState([]);
+    const addFavoriteTodo = useCallback((newFavoriteTodo) => {
+        setFavoriteTodos(prevFavoriteTodos => [...prevFavoriteTodos, newFavoriteTodo]);
+      }, []);
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prevState => !prevState);
@@ -33,6 +29,14 @@ export const Sidebar = () => {
       position: { x: 0, y: 0 }
     });
   }, [todo]);
+
+  const handleChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setTodo(prevTodo => ({
+      ...prevTodo,
+      [name]: value
+    }));
+  }, []);
 
 
     return (

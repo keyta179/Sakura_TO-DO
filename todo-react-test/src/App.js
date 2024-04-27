@@ -4,48 +4,36 @@ import TodoItem from './components/TodoItem';
 import NarrowDown from './components/NarrowDown';
 import Favorite from './components/Favorite';
 import SettingsPopup from './components/SettingPopup';
-import { FilterTodosByCategory } from './components/NarrowDown';
-import { Sidebar } from './components/Sidebar';
+import { v4 as uuidv4 } from 'uuid';
 
 import { loadSettingsFromLocalStorage, saveSettingsToLocalStorage } from './settingsUtils';
 
 function App() {
-  // コンポーネントの定義
-  // Todo
   const [todo, setTodo] = useState({
+    id: uuidv4(),
     title: '',
     category: '',
     contents: '',
     date: '',
     duration: '',
-    position: { x: 0, y: 0 }
+    position: { x: 0, y: 0 },
+    hide: false
   });
-  // Todo の配列
-  const [todos, setTodos] = useState([]);
-  // お気に入り登録されたTodoの配列
-  const [favoriteTodos, setFavoriteTodos] = useState([]);
-  // 選択されたcategoryのみのTodoの配列
-  const [filteredTodos, setFilteredTodos] = useState([]);
-  // 選択されたcategoryの状態
-  const [selectedCategory, setSelectedCategory] = useState("all"); 
-  // todosに入っているuniqueなcategoryの配列
-  const categories = [...new Set(todos.map(todo => todo.category))];
-  // 付箋の初期位置
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  // 付箋の大きさ初期値
   let todoWidth = 200;
   let todoHeight = 150;
-  // 付箋の設定
+  const [todos, setTodos] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [favoriteTodos, setFavoriteTodos] = useState([]);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [settings, setSettings] = useState({
     bodyWidth: loadSettingsFromLocalStorage().bodyWidth,
     bodyHeight: loadSettingsFromLocalStorage().bodyHeight,
     todoWidth: loadSettingsFromLocalStorage().todoWidth,
     todoHeight: loadSettingsFromLocalStorage().todoHeight
   });
-  // 付箋の設定が開かれているかどうか
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  // 付箋のポップアップが開かれているかどうか
   const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const loadTodosFromLocalStorage = useCallback(() => {
     const savedTodos = localStorage.getItem('todos');
@@ -82,19 +70,35 @@ function App() {
     }));
   }, []);
 
-  
+  const addTodo = useCallback((e) => {
+    e.preventDefault();
+    if (!todo.title || !todo.date) return;
+    setTodos(prevTodos => [...prevTodos, todo]);
+    setTodo({
+      id: uuidv4(),
+      title: '',
+      category: '',
+      contents: '',
+      date: '',
+      duration: '',
+      position: { x: 0, y: 0 },
+      hide: false
+    });
+  }, [todo]);
 
   const deleteTodo = useCallback((deletedTodo) => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo !== deletedTodo));
+    console.log("deletedTodo");
+    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== deletedTodo.id));
+    
 }, []);
 
   const clearTodos = useCallback(() => {
     setTodos([]);
   }, []);
 
-
-
-// -----
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen(prevState => !prevState);
+  }, []);
 
   useEffect(() => {
     loadTodosFromLocalStorage();
@@ -149,14 +153,9 @@ function App() {
     return nextAvailableDate; // 時間情報を保持したまま返す
   };
 
-  // 選択したcategoryを取得する
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    const filtered = FilterTodosByCategory({ todos, category }); // フィルタリングされた配列を取得
-    setFilteredTodos(filtered); // フィルタリングされた配列をセット
-  };
 
-// -----
+
+
 
   return (
     <div className="App"
@@ -167,11 +166,12 @@ function App() {
         const todo = JSON.parse(e.dataTransfer.getData('text/plain'));
         const existingDates = todos.map(todo => todo.date); // Get array of existing dates
         const nextAvailableDate = getNextAvailableDate(todo.date, existingDates); // Calculate next available date
-        setTodos(prevTodos => [...prevTodos, { ...todo, date: nextAvailableDate, position: newPosition }]);
+        setTodos(prevTodos => [...prevTodos, { ...todo,id: uuidv4(), date: nextAvailableDate, position: newPosition }]);
       }}
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
 
       <h1>ToDo List</h1>
+      <NarrowDown todos={todos} onChange={(category) => console.log(category)} />
       <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
         Settings
       </button>
@@ -184,8 +184,31 @@ function App() {
         />
       )}
 
-      <Sidebar todo={todo} />
-      {filteredTodos.map((todo, index) => (
+      <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
+        <button type="button" className={"toggle-button"} onClick={toggleMenu}>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+        </button>
+        <form onSubmit={addTodo}>
+          <input value={todo.title} type="text" name="title" onChange={handleChange} placeholder="Title" />
+          <input value={todo.category} type="text" name="category" onChange={handleChange} placeholder="Category" />
+          <textarea value={todo.contents} type="text" name="contents" onChange={handleChange} placeholder="Contents" />
+          <input value={todo.date} type="datetime-local" name="date" onChange={handleChange} />
+          <input value={todo.duration} type='time' name="duration" onChange={handleChange} />
+          <button type="submit">Add ToDo</button>
+        </form>
+        <Favorite
+          favoriteTodos={favoriteTodos}
+          setFavoriteTodos={setFavoriteTodos}
+          onDragStart={(event, todo) => {
+            event.dataTransfer.setData('text/plain', JSON.stringify(todo));
+            toggleMenu();
+          }}
+        />
+      </div>
+
+      {todos.map((todo, index) => (
         <TodoItem
           key={index}
           index={index}
@@ -196,20 +219,8 @@ function App() {
           todoHeight={settings.todoHeight}
           onDelete={() => deleteTodo(todo)}
           onAddFavorite={() => addFavoriteTodo(todo)}
-          selectedCategory={selectedCategory}
         />
       ))}
-
-      <div className={"contents-tab"}>
-        <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-            <option value="">カテゴリを選択</option>
-              {categories.map((category, index) => (
-                <option key={index} value={category}>
-                  {category}
-            </option>
-            ))}
-        </select>
-      </div>
     </div>
   );
 }
