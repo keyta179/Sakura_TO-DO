@@ -17,33 +17,37 @@ const SettingsPopup = ({ settings, setSettings, closeSettingsPopup }) => {
     };
 
     return (
-        <div className="popup">
-            <div className="popup-content">
+        <div className="setting-popup">
+            
                 <h2>Settings</h2>
                 <h3>Adjust Body Size</h3>
                 <label htmlFor="width">Width:</label>
+                <p>
                 <input
                     type="range"
                     id="width"
                     min="400"
                     max="800"
-                    step="10"
+                    step="5"
                     value={settings.bodyWidth}
                     onChange={(e) => changeBodySize(Number(e.target.value), settings.bodyHeight)}
 
-                />
-                <label htmlFor="height">Height:</label>
+                /></p>
+                <p>
+                <label htmlFor="height">Height:</label></p>
+                <p>
                 <input
                     type="range"
                     id="height"
                     min="300"
-                    max="600"
-                    step="10"
+                    max="565"
+                    step="5"
                     value={settings.bodyHeight}
                     onChange={(e) => changeBodySize(settings.bodyWidth, Number(e.target.value))}
-                />
-                <p></p>
-                <label htmlFor="todoWidth">Todo Width:</label>
+                /></p>
+                <p>
+                <label htmlFor="todoWidth">Todo Width:</label></p>
+                <p>
                 <input
                     type="range"
                     id="todoWidth"
@@ -52,9 +56,10 @@ const SettingsPopup = ({ settings, setSettings, closeSettingsPopup }) => {
                     step="10"
                     value={settings.todoWidth}
                     onChange={(e) => changeTodoSize(Number(e.target.value), settings.todoHeight)}
-                />
-
-                <label htmlFor="todoHeight">Todo Height:</label>
+                /></p>
+<p>
+                <label htmlFor="todoHeight">Todo Height:</label></p>
+                <p>
                 <input
                     type="range"
                     id="todoHeight"
@@ -63,11 +68,12 @@ const SettingsPopup = ({ settings, setSettings, closeSettingsPopup }) => {
                     step="10"
                     value={settings.todoHeight}
                     onChange={(e) => changeTodoSize(settings.todoWidth, Number(e.target.value))}
-                />
+                /></p>
+                <p>
 
-                <button onClick={closeSettingsPopup}>Close</button>
+                <button onClick={closeSettingsPopup}>Close</button></p>
             </div>
-        </div>
+        
     );
 };
 

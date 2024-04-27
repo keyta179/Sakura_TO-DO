@@ -168,11 +168,20 @@ function App() {
     }
   }, [todos, selectedCategory]);
 
-  console.log(selectedCategory);
+  // console.log(selectedCategory);
 
   return (
     <div>
-      <header>ToDo List</header>
+      <header>
+        <div className='title'>ToDo List</div>
+      {isSettingsPopupOpen && (
+        <SettingsPopup
+          settings={settings}
+          setSettings={setSettings}
+          closeSettingsPopup={closeSettingsPopup}
+        />
+      )}
+      </header>
       <div className="App"
       onDragOver={(e) => e.preventDefault()}
       onDrop={(e) => {
@@ -185,19 +194,13 @@ function App() {
       }}
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
 
-      <h1>ToDo List</h1>
+    
       <NarrowDown todos={todos} selectedCategory={selectedCategory} setSelectedCategory={selectedCategory} onChange={(category) => setSelectedCategory(category)} /> {/* NarrowDown コンポーネントで選択されたカテゴリを渡す */}
       <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
         Settings
       </button>
 
-      {isSettingsPopupOpen && (
-        <SettingsPopup
-          settings={settings}
-          setSettings={setSettings}
-          closeSettingsPopup={closeSettingsPopup}
-        />
-      )}
+      
 
       <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
         <button type="button" className={"toggle-button"} onClick={toggleMenu}>

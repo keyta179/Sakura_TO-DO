@@ -5,7 +5,6 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 }); // マウス位置
     const [show, setShow] = useState(false);
-    const [hide, setHide] = useState(false);
     const [isFavoriteClicked, setIsFavoriteClicked] = useState(false);
     const [isTodoMenuOpened, setIsTodoMenuOpened] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState(null);
@@ -81,7 +80,10 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
     }, [dragging, mousePos, todo, todos, setTodos]);
 
     useEffect(() => {
-        setShow(true); // Set show to true initially
+        setTimeout(() => {
+         setShow(true); // Set show to true initially
+        }, 100);
+        
         return;
     }, [todo]);
 
@@ -232,7 +234,7 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
                 }}
             >
                 <div className="todo-info">
-                    <div className="todo-title">{todo.title}</div>
+                    <div className="todo-title">{`${ show ? 'show' : ''}`}</div>
                     <div className="todo-date">{formatDate(todo.date)}   </div>
                     <div className="todo-duration">所要時間 {todo.duration}</div>
                     <div style={{
