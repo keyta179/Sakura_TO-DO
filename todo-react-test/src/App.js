@@ -34,6 +34,8 @@ function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(""); // 選択されたカテゴリの state
+  const [filteredTodos, setFilteredTodos] = useState([]); // フィルタリングされた ToDo の配列
 
   const loadTodosFromLocalStorage = useCallback(() => {
     const savedTodos = localStorage.getItem('todos');
@@ -90,7 +92,7 @@ function App() {
     console.log("deletedTodo");
     setTodos(prevTodos => prevTodos.filter(todo => todo.id !== deletedTodo.id));
     
-}, []);
+  }, []);
 
   const clearTodos = useCallback(() => {
     setTodos([]);
@@ -99,6 +101,29 @@ function App() {
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prevState => !prevState);
   }, []);
+
+  const getNextAvailableDate = (targetDate, existingDates) => {
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const targetDayIndex = new Date(targetDate).getDay();
+    let nextAvailableDate = new Date(targetDate);
+
+    // If the targetDate is today
+    if (nextAvailableDate.toDateString() === new Date().toDateString()) {
+      nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
+    }
+    // If the targetDate is in the past
+    else if (nextAvailableDate < new Date()) {
+      nextAvailableDate = new Date();
+      nextAvailableDate.setDate(nextAvailableDate.getDate() + (7 + targetDayIndex - new Date().getDay()) % 7);
+    }
+
+    // Move to the next occurrence of the same weekday that is not in existingDates
+    while (existingDates.includes(nextAvailableDate.toISOString())) {
+      nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
+    }
+
+    return nextAvailableDate; // 時間情報を保持したまま返す
+  };
 
   useEffect(() => {
     loadTodosFromLocalStorage();
@@ -130,32 +155,20 @@ function App() {
   useEffect(() => {
     localStorage.setItem('settings', JSON.stringify(settings));
   }, [settings]);
-  const getNextAvailableDate = (targetDate, existingDates) => {
-    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const targetDayIndex = new Date(targetDate).getDay();
-    let nextAvailableDate = new Date(targetDate);
 
-    // If the targetDate is today
-    if (nextAvailableDate.toDateString() === new Date().toDateString()) {
-      nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
+  // カテゴリが選択されたときの処理
+  useEffect(() => {
+    // カテゴリが選択されていない場合はすべての ToDo を表示
+    if (selectedCategory === "") {
+      setFilteredTodos(todos);
+    } else {
+      // カテゴリが選択された場合はそのカテゴリに一致する ToDo のみを表示
+      const filteredTodos = todos.filter(todo => todo.category === selectedCategory);
+      setFilteredTodos(filteredTodos);
     }
-    // If the targetDate is in the past
-    else if (nextAvailableDate < new Date()) {
-      nextAvailableDate = new Date();
-      nextAvailableDate.setDate(nextAvailableDate.getDate() + (7 + targetDayIndex - new Date().getDay()) % 7);
-    }
+  }, [todos, selectedCategory]);
 
-    // Move to the next occurrence of the same weekday that is not in existingDates
-    while (existingDates.includes(nextAvailableDate.toISOString())) {
-      nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
-    }
-
-    return nextAvailableDate; // 時間情報を保持したまま返す
-  };
-
-
-
-
+  console.log(selectedCategory);
 
   return (
     <div>
@@ -171,9 +184,9 @@ function App() {
         setTodos(prevTodos => [...prevTodos, { ...todo,id: uuidv4(), date: nextAvailableDate, position: newPosition }]);
       }}
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
-        
-      
-      <NarrowDown todos={todos} onChange={(category) => console.log(category)} />
+
+      <h1>ToDo List</h1>
+      <NarrowDown todos={todos} selectedCategory={selectedCategory} setSelectedCategory={selectedCategory} onChange={(category) => setSelectedCategory(category)} /> {/* NarrowDown コンポーネントで選択されたカテゴリを渡す */}
       <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
         Settings
       </button>
@@ -210,7 +223,7 @@ function App() {
         />
       </div>
 
-      {todos.map((todo, index) => (
+      {filteredTodos.map((todo, index) => (
         <TodoItem
           key={index}
           index={index}
