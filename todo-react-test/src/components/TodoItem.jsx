@@ -215,9 +215,10 @@ const TodoItem = ({ todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDel
             >
                 <div className="todo-info">
                     <div className="todo-title">{todo.title}</div>
-                    <div className="todo-date">{formatDate(todo.date)}</div>
+                    <div className="todo-date">{formatDate(todo.date)}   所要時間 {todo.duration}</div>
+                    
                     <div className="todo-contents"> {convertNewlinesToBr(todo.contents)}</div>
-                    <div className='todo-duration'>所要時間 {todo.duration}</div>
+                    
                     <div className="todo-deleteButton" onClick={onDelete}>×</div>
                     <div className={`todo-favoriteButton ${isFavoriteClicked ? 'clicked' : ''}`} onClick={addFavorite} onAnimationEnd={handleAnimationEnd}>★</div>
                 </div>
