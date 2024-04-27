@@ -9,7 +9,6 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
     const [isFavoriteClicked, setIsFavoriteClicked] = useState(false);
     const [isTodoMenuOpened, setIsTodoMenuOpened] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState(null);
-    const [isDeleteNow, setIsDeleteNow] = useState(false);
     
     // ドラッグ開始時の処理
     const handleDragStart = (event) => {
@@ -180,21 +179,19 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
         ));
     }
     const onDeleteWait = () => {
-        setHide(true); // hideをtrueに設定
-        setIsDeleteNow(true);
+        todo.hide = true; // hideをtrueに設定
     };
     useEffect(() => {
-        console.log(`todo-item ${hide ? 'hide' : show ? 'show' : ''}`);
-        if (!hide) return;
-        if (isDeleteNow) return;
+        console.log(`todo-item ${todo.hide ? 'hide' : show ? 'show' : ''}`);
+        if (!todo.hide) return;
+        
         setTimeout(() => {
-            console.log(`todo-item ${hide ? 'hide' : show ? 'show' : ''}`);
-            console.log(todo);
+            console.log(`todo-item ${todo.hide ? 'hide' : show ? 'show' : ''}`);
             onDelete(todo);
-            setIsDeleteNow(false);
+            
         }, 3000);
         
-    }, [hide]);
+    }, [todo.hide]);
     
     return (
         <div>
@@ -226,7 +223,7 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
                     width: todoWidth,
                     height: todoHeight,
                 }}
-                className={`todo-item ${hide ? 'hide' : show ? 'show' : ''}`}
+                className={`todo-item ${todo.hide ? 'hide' : show ? 'show' : ''}`}
                 
                 onMouseDown={handleDragStart}
                 onContextMenu={(e) => {

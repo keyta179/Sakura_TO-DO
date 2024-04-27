@@ -4,17 +4,20 @@ import TodoItem from './components/TodoItem';
 import NarrowDown from './components/NarrowDown';
 import Favorite from './components/Favorite';
 import SettingsPopup from './components/SettingPopup';
+import { v4 as uuidv4 } from 'uuid';
 
 import { loadSettingsFromLocalStorage, saveSettingsToLocalStorage } from './settingsUtils';
 
 function App() {
   const [todo, setTodo] = useState({
+    id: uuidv4(),
     title: '',
     category: '',
     contents: '',
     date: '',
     duration: '',
-    position: { x: 0, y: 0 }
+    position: { x: 0, y: 0 },
+    hide: false
   });
   let todoWidth = 200;
   let todoHeight = 150;
@@ -72,17 +75,21 @@ function App() {
     if (!todo.title || !todo.date) return;
     setTodos(prevTodos => [...prevTodos, todo]);
     setTodo({
+      id: uuidv4(),
       title: '',
       category: '',
       contents: '',
       date: '',
       duration: '',
-      position: { x: 0, y: 0 }
+      position: { x: 0, y: 0 },
+      hide: false
     });
   }, [todo]);
 
   const deleteTodo = useCallback((deletedTodo) => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo !== deletedTodo));
+    console.log("deletedTodo");
+    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== deletedTodo.id));
+    
 }, []);
 
   const clearTodos = useCallback(() => {
@@ -159,7 +166,7 @@ function App() {
         const todo = JSON.parse(e.dataTransfer.getData('text/plain'));
         const existingDates = todos.map(todo => todo.date); // Get array of existing dates
         const nextAvailableDate = getNextAvailableDate(todo.date, existingDates); // Calculate next available date
-        setTodos(prevTodos => [...prevTodos, { ...todo, date: nextAvailableDate, position: newPosition }]);
+        setTodos(prevTodos => [...prevTodos, { ...todo,id: uuidv4(), date: nextAvailableDate, position: newPosition }]);
       }}
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
 
