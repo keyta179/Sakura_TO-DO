@@ -1,11 +1,16 @@
 body {
-
+  background-color: #f5f1ea;
 }
 header {
-	width: 100%;
+  /* padding-top: 20px; */
+	width: 200px;
 	line-height: 35px;
-	background: #ff7402;
+	/* background: #e6e7a2; */
   text-align: center;
+  padding: 10px;
+  margin: auto;
+  position: fixed;
+  bottom: 0;
   
 }
 header .title {
@@ -15,13 +20,15 @@ header .title {
 }
 .setting-button{
   position: absolute;
-  top: 0px;
+  top: 8px;
   left: 0px;
   padding: 5px;
   cursor: pointer;
-  background-color: #f0f0f0;
+  background-color: #ffcdeb;
   border: none;
   outline: none;
+  font-weight: bold;
+  border-radius: 7px;
 }
 .setting-popup{
   font-size: 16px;
@@ -31,11 +38,12 @@ header .title {
   transform: translate(-50%, -50%);
   width: 50vw;
   height: auto;
-  background-color: #ffffffa9;
+  background-color: #ebebeba9;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   z-index: 100;
   border-radius: 10px; /* 角を丸くする */
+  max-width: 500px;
 }
 .setting-popup p{
   margin: 0 0; /* 追加：上下のマージンを設定 */
@@ -78,7 +86,7 @@ button {
 }
 
 button {
-  background-color: #E6E6FA;
+  background-color: #ffcdeb;
 }
 
 li {
