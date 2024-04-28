@@ -201,7 +201,7 @@ function App() {
         Settings
       </button>
 
-      <Sidebar todo={todo} setTodo={setTodo} todos={todos} setTodos={setTodos} />
+      <Sidebar todo={todo} setTodo={setTodo} favoriteTodos={favoriteTodos} setFavoriteTodos={setFavoriteTodos} todos={todos} setTodos={setTodos} />
 
 
       {filteredTodos.map((todo, index) => (

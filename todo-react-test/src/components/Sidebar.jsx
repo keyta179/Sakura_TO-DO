@@ -2,12 +2,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Favorite from './Favorite';
 
-export const Sidebar = ({ todo, todos, setTodo ,setTodos }) => {
+export const Sidebar = ({ todo, todos,favoriteTodos,setFavoriteTodos, setTodo ,setTodos }) => {
 
     // Menu bar が開いているかどうか
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    // お気に入り登録されたTodoの配列
-    const [favoriteTodos, setFavoriteTodos] = useState([]);
+    
     const addFavoriteTodo = useCallback((newFavoriteTodo) => {
         setFavoriteTodos(prevFavoriteTodos => [...prevFavoriteTodos, newFavoriteTodo]);
       }, []);
