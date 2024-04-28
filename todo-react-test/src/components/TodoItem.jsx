@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './../style/TodoItem.css';
+import deleteSound from './../sound/wind_using_taskFinished.mp3';
 
 const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDelete, onAddFavorite }) => {
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
@@ -22,7 +23,7 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
     });
 
     const addFavorite = () => {
-        setIsFavoriteClicked(true); // Mark favorite as clicked
+        setIsFavoriteClicked(true);
         onAddFavorite(todo);
     };
 
@@ -182,6 +183,8 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
     }
     const onDeleteWait = () => {
         todo.hide = true; // hideをtrueに設定
+        const audio = new Audio(deleteSound);
+        audio.play();
     };
     useEffect(() => {
         console.log(`todo-item ${todo.hide ? 'hide' : show ? 'show' : ''}`);
