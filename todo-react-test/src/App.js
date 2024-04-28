@@ -173,8 +173,6 @@ function App() {
 
   return (
     <div>
-      <header>
-        <div className='title'>ToDo List</div>
       {isSettingsPopupOpen && (
         <SettingsPopup
           settings={settings}
@@ -182,6 +180,9 @@ function App() {
           closeSettingsPopup={closeSettingsPopup}
         />
       )}
+      <header>
+        <div className='title'>ToDo List</div>
+      
       </header>
       <div className="App"
       onDragOver={(e) => e.preventDefault()}
@@ -197,11 +198,9 @@ function App() {
 
     
       <NarrowDown todos={todos} selectedCategory={selectedCategory} setSelectedCategory={selectedCategory} onChange={(category) => setSelectedCategory(category)} /> {/* NarrowDown コンポーネントで選択されたカテゴリを渡す */}
-      <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
-        Settings
-      </button>
+      
 
-      <Sidebar todo={todo} setTodo={setTodo} favoriteTodos={favoriteTodos} setFavoriteTodos={setFavoriteTodos} todos={todos} setTodos={setTodos} />
+      <Sidebar todo={todo} setTodo={setTodo} favoriteTodos={favoriteTodos} setFavoriteTodos={setFavoriteTodos} todos={todos} setTodos={setTodos} openSettingsPopup={openSettingsPopup} />
 
 
       {filteredTodos.map((todo, index) => (
