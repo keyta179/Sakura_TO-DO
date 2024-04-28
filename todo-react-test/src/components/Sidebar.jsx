@@ -3,6 +3,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Favorite from './Favorite';
 import NarrowDown from './NarrowDown';
 import appearSound from './../sound/bird_using_taskAppeared.mp3';
+import openMenuSound from './../sound/umbrellaOpen_using_menuOpen.mp3';
+import closeMenuSound from './../sound/umbrellaClose_using_menuClose.mp3';
 
 
 export const Sidebar = ({ todo, todos, favoriteTodos, setFavoriteTodos, setTodo, setTodos, openSettingsPopup, selectedCategory, setSelectedCategory }) => {
@@ -16,7 +18,9 @@ export const Sidebar = ({ todo, todos, favoriteTodos, setFavoriteTodos, setTodo,
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prevState => !prevState);
-  }, []);
+    const audio = new Audio(isMenuOpen ? closeMenuSound : openMenuSound);
+    audio.play();
+  }, [isMenuOpen]);
 
   const addTodo = useCallback((e) => {
     e.preventDefault();
