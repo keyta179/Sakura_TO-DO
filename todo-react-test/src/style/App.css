@@ -1,5 +1,6 @@
 body {
   background-color: #f5f1ea;
+  
 }
 header {
   /* padding-top: 20px; */
@@ -24,11 +25,12 @@ header .title {
   left: 0px;
   padding: 5px;
   cursor: pointer;
-  background-color: #ffcdeb;
+  background-color: #c8ffb8;
   border: none;
   outline: none;
   font-weight: bold;
   border-radius: 7px;
+  height: 40px;
 }
 .setting-popup{
   text-align: center;
@@ -83,10 +85,11 @@ header .title {
 
 input,
 button {
-  margin: 5px;
+  margin: 3px 3px;
   padding: 10px;
   border-radius: 10px;
   border: none;
+  font-family:"ヒラギノ角ゴ ProN"
 }
 
 button {
@@ -116,6 +119,21 @@ li:hover {
   z-index: 99;
 }
 
+select {
+  font-weight: bold;
+  text-align: center;
+  font-size: 16px;
+  width: 135px;
+ height: 40px;
+  margin: 0px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #c8ffb8;
+}
+hr{
+  width : 200px;
+}
 .menu.open {
   right: 0;
 }
@@ -165,6 +183,9 @@ li:hover {
   border-radius: 10px; /* 角を丸くする */
 }
 textarea {
+  
+  
+  font-size: 12px;
   width: 75%;
   height: 50px;
   border-radius: 10px;
@@ -172,4 +193,6 @@ textarea {
   padding: 10px;
   box-sizing: border-box;
   margin: 10px 0;
+  border: none;
+  font-family:"HiraKakuProN"
 }
