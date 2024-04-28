@@ -29,7 +29,6 @@ const NarrowDown = ({ todos, selectedCategory, setSelectedCategory, onChange }) 
           </option>
         ))}
       </select>
-      <div>選択したカテゴリ: {selectedCategory}</div>
     </div>
   );
 };

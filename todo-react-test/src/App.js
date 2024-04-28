@@ -4,6 +4,7 @@ import TodoItem from './components/TodoItem';
 import NarrowDown from './components/NarrowDown';
 import Favorite from './components/Favorite';
 import SettingsPopup from './components/SettingPopup';
+import { Sidebar } from './components/Sidebar';
 import { v4 as uuidv4 } from 'uuid';
 
 import { loadSettingsFromLocalStorage, saveSettingsToLocalStorage } from './settingsUtils';
@@ -200,31 +201,9 @@ function App() {
         Settings
       </button>
 
-      
+      <Sidebar todo={todo} setTodo={setTodo} todos={todos} setTodos={setTodos} />
 
-      <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
-        <button type="button" className={"toggle-button"} onClick={toggleMenu}>
-          <div className="bar"></div>
-          <div className="bar"></div>
-          <div className="bar"></div>
-        </button>
-        <form onSubmit={addTodo}>
-          <input value={todo.title} type="text" name="title" onChange={handleChange} placeholder="Title" />
-          <input value={todo.category} type="text" name="category" onChange={handleChange} placeholder="Category" />
-          <textarea value={todo.contents} type="text" name="contents" onChange={handleChange} placeholder="Contents" />
-          <input value={todo.date} type="datetime-local" name="date" onChange={handleChange} />
-          <input value={todo.duration} type='time' name="duration" onChange={handleChange} />
-          <button type="submit">Add ToDo</button>
-        </form>
-        <Favorite
-          favoriteTodos={favoriteTodos}
-          setFavoriteTodos={setFavoriteTodos}
-          onDragStart={(event, todo) => {
-            event.dataTransfer.setData('text/plain', JSON.stringify(todo));
-            toggleMenu();
-          }}
-        />
-      </div>
+      
 
       {filteredTodos.map((todo, index) => (
         <TodoItem
