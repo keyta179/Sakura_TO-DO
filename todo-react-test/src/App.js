@@ -181,7 +181,7 @@ function App() {
       )}
       <header>
         {/* <div className='title'>ToDo List</div> */}
-        <img src="title.jpg" alt="title"></img>
+        <img src="./title.png" alt="title"></img>
       
       </header>
       <div className="App"
