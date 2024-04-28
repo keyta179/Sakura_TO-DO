@@ -26,7 +26,7 @@
 
 .todo-item.hide {
   opacity: 0;
-  animation: fuwafuwa 3s ease-in-out infinite alternate;
+  animation: fuwafuwa 2s ease-in-out infinite alternate;
   display: inline-block;
   transition: 1.5s ease-in-out;
   /* width: 70px;
@@ -40,16 +40,16 @@
     transform:translate(0, 0px) rotate(0deg);
   }
   25% {
-    transform:translate(0, 30px) rotate(-7deg);
+    transform:translate(0, 60px) rotate(-7deg);
   }
   50% {
-    transform:translate(0, 60px) rotate(2deg);
+    transform:translate(0, 90px) rotate(2deg);
   }
   75% {
-    transform:translate(0, 90px) rotate(10deg);
+    transform:translate(0, 120px) rotate(10deg);
   }
   100% {
-    transform:translate(0, 120px) rotate(0deg);
+    transform:translate(0, 150px) rotate(0deg);
   }
 }
 .todo-item.dragging {

@@ -194,7 +194,7 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
             
             onDelete(todo);
             
-        }, 3000);
+        }, 1000);
         
     }, [todo.hide]);
     
