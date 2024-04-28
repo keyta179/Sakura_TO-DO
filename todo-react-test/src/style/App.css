@@ -41,9 +41,10 @@ header .title {
   background-color: #ebebeba9;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-  z-index: 100;
+  
   border-radius: 10px; /* 角を丸くする */
   max-width: 500px;
+  z-index: 150;
 }
 .setting-popup p{
   margin: 0 0; /* 追加：上下のマージンを設定 */

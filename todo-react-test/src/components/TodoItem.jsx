@@ -234,7 +234,7 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
                 }}
             >
                 <div className="todo-info">
-                    <div className="todo-title">{todo.title}</div>
+                    <div className="todo-title">{todo.title}:{todo.category}</div>
                     <div className="todo-date">{formatDate(todo.date)}   </div>
                     <div className="todo-duration">所要時間 {todo.duration}</div>
                     <div style={{

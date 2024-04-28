@@ -67,8 +67,11 @@
   text-align: left;
   font-weight: bold;
   font-size: large;
-  
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 
 .todo-contents {
   
