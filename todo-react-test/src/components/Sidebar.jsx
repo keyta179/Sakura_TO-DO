@@ -1,15 +1,16 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Favorite from './Favorite';
+import NarrowDown from './NarrowDown';
 
-export const Sidebar = ({ todo, todos,favoriteTodos,setFavoriteTodos, setTodo ,setTodos,openSettingsPopup }) => {
+export const Sidebar = ({ todo, todos, favoriteTodos, setFavoriteTodos, setTodo, setTodos, openSettingsPopup, selectedCategory, setSelectedCategory }) => {
 
-    // Menu bar が開いているかどうか
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
-    const addFavoriteTodo = useCallback((newFavoriteTodo) => {
-        setFavoriteTodos(prevFavoriteTodos => [...prevFavoriteTodos, newFavoriteTodo]);
-      }, []);
+  // Menu bar が開いているかどうか
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const addFavoriteTodo = useCallback((newFavoriteTodo) => {
+    setFavoriteTodos(prevFavoriteTodos => [...prevFavoriteTodos, newFavoriteTodo]);
+  }, []);
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prevState => !prevState);
@@ -38,8 +39,14 @@ export const Sidebar = ({ todo, todos,favoriteTodos,setFavoriteTodos, setTodo ,s
   }, []);
 
 
-    return (
-      <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
+  return (
+    <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
+      <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
+        Settings
+      </button>
+      <NarrowDown todos={todos} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} onChange={(category) => setSelectedCategory(category)} /> {/* NarrowDown コンポーネントで選択されたカテゴリを渡す */}
+
+      <hr></hr>
       <button type="button" className={"toggle-button"} onClick={toggleMenu}>
         <div className="bar"></div>
         <div className="bar"></div>
@@ -53,9 +60,7 @@ export const Sidebar = ({ todo, todos,favoriteTodos,setFavoriteTodos, setTodo ,s
         <input value={todo.duration} type='time' name="duration" onChange={handleChange} />
         <button type="submit">Add ToDo</button>
       </form>
-      <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
-        Settings
-      </button>
+
       <Favorite
         favoriteTodos={favoriteTodos}
         setFavoriteTodos={setFavoriteTodos}
@@ -65,6 +70,8 @@ export const Sidebar = ({ todo, todos,favoriteTodos,setFavoriteTodos, setTodo ,s
           toggleMenu();
         }}
       />
+
+
     </div>
-    );
+  );
 }

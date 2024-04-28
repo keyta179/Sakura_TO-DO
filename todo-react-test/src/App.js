@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './style/App.css';
 import TodoItem from './components/TodoItem';
-import NarrowDown from './components/NarrowDown';
 import Favorite from './components/Favorite';
 import SettingsPopup from './components/SettingPopup';
 import { Sidebar } from './components/Sidebar';
@@ -197,11 +196,10 @@ function App() {
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
 
       
-      <NarrowDown todos={todos} selectedCategory={selectedCategory} setSelectedCategory={selectedCategory} onChange={(category) => setSelectedCategory(category)} /> {/* NarrowDown コンポーネントで選択されたカテゴリを渡す */}
       
       
 
-      <Sidebar todo={todo} setTodo={setTodo} favoriteTodos={favoriteTodos} setFavoriteTodos={setFavoriteTodos} todos={todos} setTodos={setTodos} openSettingsPopup={openSettingsPopup} />
+      <Sidebar todo={todo} setTodo={setTodo} favoriteTodos={favoriteTodos} setFavoriteTodos={setFavoriteTodos} todos={todos} setTodos={setTodos} openSettingsPopup={openSettingsPopup}selectedCategory={selectedCategory}setSelectedCategory={setSelectedCategory} />
 
 
       {filteredTodos.map((todo, index) => (

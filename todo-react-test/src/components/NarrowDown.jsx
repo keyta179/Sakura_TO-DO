@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './../style/NarrowDown.css'
+import './../style/App.css'
 
 export const FilterTodosByCategory = ({ todos, category }) => {
   if(category === "all"){
@@ -20,16 +20,16 @@ const NarrowDown = ({ todos, selectedCategory, setSelectedCategory, onChange }) 
   };
 
   return (
-    <div className={"menu.open"}>
-      <select value={selectedCategory} onChange={handleCategoryChange}>
-        <option value="">カテゴリを選択</option>
+   
+      <select className={"menu-contentstab"} value={selectedCategory} onChange={handleCategoryChange}>
+        <option value="">Filter</option>
         {categories.map((category, index) => (
-          <option key={index} value={category}>
+          <option  key={index} value={category}>
             {category}
           </option>
         ))}
       </select>
-    </div>
+    
   );
 };
 

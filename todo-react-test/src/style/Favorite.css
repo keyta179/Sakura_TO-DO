@@ -2,27 +2,31 @@
     overflow-y: auto;
     max-height: 164px;
     border-radius: 5px;
+    
     /* Add border-radius property to round the corners */
 }
 
 .favorite-list-container {
     border: 1px solid #ccc;
     padding: 5px;
-    background-color: #f6f5f5;
+    background-color: #fcdcee;
     border-radius: 5px;
     max-height: 282px;
     /* Add border-radius property to round the corners */
     transform: scale(0);
     transition-delay: 0s;
     transition: transform 0.3s ease-in-out;
+    border: none;
 }
 .favorite-list-container.open{
+    
     border: 1px solid #ccc;
     padding: 5px;
-    background-color: #f6f5f5;
+    background-color: #fcdcee;
     border-radius: 5px;
+    border: none;
     /* Add border-radius property to round the corners */
-    transform: scale(1);
+    transform: scale(0.8);
 
 }
 
