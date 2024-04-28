@@ -180,7 +180,8 @@ function App() {
         />
       )}
       <header>
-        <div className='title'>ToDo List</div>
+        {/* <div className='title'>ToDo List</div> */}
+        <img src="title.jpg" alt="title"></img>
       
       </header>
       <div className="App"
