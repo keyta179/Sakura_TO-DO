@@ -11,6 +11,18 @@
     background-color: #f6f5f5;
     border-radius: 5px;
     /* Add border-radius property to round the corners */
+    transform: scale(0);
+    transition-delay: 0s;
+    transition: transform 0.3s ease-in-out;
+}
+.favorite-list-container.open{
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #f6f5f5;
+    border-radius: 5px;
+    /* Add border-radius property to round the corners */
+    transform: scale(1);
+
 }
 
 .favorite-list-container h2 {

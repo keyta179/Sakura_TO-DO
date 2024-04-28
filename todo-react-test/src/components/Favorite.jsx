@@ -3,7 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import './../style/Favorite.css';
 import { useEffect } from 'react';
-const Favorite = ({ favoriteTodos, setFavoriteTodos, onDragStart }) => {
+const Favorite = ({ favoriteTodos,isMenuOpen, setFavoriteTodos, onDragStart }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [popupIndex, setPopupIndex] = useState(null);
     const loadFavoriteTodosFromLocalStorage = () => {
@@ -55,7 +55,7 @@ const Favorite = ({ favoriteTodos, setFavoriteTodos, onDragStart }) => {
         return `(${weekday}) ${hours}:${minutes}`;
     };
     return (
-        <div className="favorite-list-container">
+        <div className={`favorite-list-container ${isMenuOpen ? 'open' : ''}`}>
             <h2>Favorite Todos</h2>
             {showPopup && (
                 <div className="popup-container">

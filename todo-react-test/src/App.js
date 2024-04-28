@@ -203,7 +203,6 @@ function App() {
 
       <Sidebar todo={todo} setTodo={setTodo} todos={todos} setTodos={setTodos} />
 
-      
 
       {filteredTodos.map((todo, index) => (
         <TodoItem
