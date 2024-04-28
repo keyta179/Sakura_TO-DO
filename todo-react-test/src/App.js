@@ -219,6 +219,7 @@ function App() {
         <Favorite
           favoriteTodos={favoriteTodos}
           setFavoriteTodos={setFavoriteTodos}
+          isMenuOpen={isMenuOpen}
           onDragStart={(event, todo) => {
             event.dataTransfer.setData('text/plain', JSON.stringify(todo));
             toggleMenu();

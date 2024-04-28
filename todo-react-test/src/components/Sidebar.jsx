@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Favorite from './Favorite';
+import { is } from 'date-fns/locale';
 
 export const Sidebar = ({ todo, todos, setTodo ,setTodos }) => {
 
@@ -56,8 +57,10 @@ export const Sidebar = ({ todo, todos, setTodo ,setTodos }) => {
         </form>
         <Favorite
           favoriteTodos={favoriteTodos}
+          
           setFavoriteTodos={setFavoriteTodos}
           onDragStart={(event, todo) => {
+            
             event.dataTransfer.setData('text/plain', JSON.stringify(todo));
             toggleMenu();
           }}
