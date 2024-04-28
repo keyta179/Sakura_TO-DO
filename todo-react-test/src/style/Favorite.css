@@ -9,6 +9,7 @@
 .favorite-list-container {
     border: 1px solid #ccc;
     padding: 5px;
+    background-color: #e6662b;
     background-color: #fcdcee;
     border-radius: 5px;
     max-height: 282px;

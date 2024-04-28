@@ -98,11 +98,11 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
 
         // 各日付の背景色を定義
         const colors = {
-            '-1': '#ff2b2b',   // 当日及び当日より前
-            '0': '#ff2b2b',    // 当日及び当日より前
-            '1': '#ff8080',    // 二日前
-            '2': '#ffd5d5',    // 三日前
-            '3': '#e9e9e9',    // 四日前及びそれ以上
+            '-1': '#e6662b',   // 当日及び当日より前
+            '0': '#e6662b',    // 当日及び当日より前
+            '1': '#f79a6e',    // 二日前
+            '2': '#ecb3bf',    // 三日前
+            '3': '#ffcdeb',    // 四日前及びそれ以上
         };
 
         // daysDiffが0未満の場合はすべて当日と同じ色に設定
