@@ -193,6 +193,7 @@ function App() {
         const nextAvailableDate = getNextAvailableDate(todo.date, existingDates); // Calculate next available date
         setTodos(prevTodos => [...prevTodos, { ...todo,id: uuidv4(), date: nextAvailableDate, position: newPosition }]);
       }}
+      
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
 
       
