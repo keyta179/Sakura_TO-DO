@@ -72,9 +72,10 @@ img{
   width: 300px;
   height: 189px;
   border-radius: 50%;
-  bottom: 10px;
-  
-
+  bottom: 0px;
+  position: absolute;
+  left :10px;
+  bottom : 0px;
 }
 .setting-row label {
   margin-right: 10px;
