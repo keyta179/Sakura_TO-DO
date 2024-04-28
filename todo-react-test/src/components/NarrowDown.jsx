@@ -20,7 +20,7 @@ const NarrowDown = ({ todos, selectedCategory, setSelectedCategory, onChange }) 
   };
 
   return (
-    <div className={"contents-tab"}>
+    <div className={"menu.open"}>
       <select value={selectedCategory} onChange={handleCategoryChange}>
         <option value="">カテゴリを選択</option>
         {categories.map((category, index) => (

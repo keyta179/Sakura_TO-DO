@@ -196,8 +196,9 @@ function App() {
       }}
       style={{ width: settings.bodyWidth, height: settings.bodyHeight }}>
 
-    
+      
       <NarrowDown todos={todos} selectedCategory={selectedCategory} setSelectedCategory={selectedCategory} onChange={(category) => setSelectedCategory(category)} /> {/* NarrowDown コンポーネントで選択されたカテゴリを渡す */}
+      
       
 
       <Sidebar todo={todo} setTodo={setTodo} favoriteTodos={favoriteTodos} setFavoriteTodos={setFavoriteTodos} todos={todos} setTodos={setTodos} openSettingsPopup={openSettingsPopup} />
