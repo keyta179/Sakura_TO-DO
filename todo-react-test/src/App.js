@@ -5,8 +5,7 @@ import Favorite from './components/Favorite';
 import SettingsPopup from './components/SettingPopup';
 import { Sidebar } from './components/Sidebar';
 import { v4 as uuidv4 } from 'uuid';
-
-import { loadSettingsFromLocalStorage, saveSettingsToLocalStorage } from './settingsUtils';
+import { loadSettingsFromLocalStorage, saveSettingsToLocalStorage } from './components/settingsUtils';
 
 function App() {
   const [todo, setTodo] = useState({
