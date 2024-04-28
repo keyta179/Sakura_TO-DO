@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './../style/TodoItem.css';
+
 import deleteSound from './../sound/wind_using_taskFinished.mp3';
 
 const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDelete, onAddFavorite }) => {
@@ -9,6 +10,7 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
     const [isFavoriteClicked, setIsFavoriteClicked] = useState(false);
     const [isTodoMenuOpened, setIsTodoMenuOpened] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState(null);
+
     
     // ドラッグ開始時の処理
     const handleDragStart = (event) => {
@@ -82,7 +84,7 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
 
     useEffect(() => {
         setTimeout(() => {
-         setShow(true); // Set show to true initially
+         setShow(true);
         }, 100);
         
         return;
@@ -191,12 +193,13 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
         if (!todo.hide) return;
         
         setTimeout(() => {
+            onDelete(todo)
             
-            onDelete(todo);
-            
-        }, 1000);
+        }, 2000);
         
     }, [todo.hide]);
+
+    
     
     return (
         <div>

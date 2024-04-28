@@ -37,20 +37,69 @@
 }
 @keyframes fuwafuwa {
   0% {
-    transform:translate(0, 0px) rotate(0deg);
+    transform: translate(0, 0px) rotate(0deg);
+  }
+  5% {
+    transform: translate(0, 7px) rotate(-1deg);
+  }
+  10% {
+    transform: translate(0, 15px) rotate(-2deg);
+  }
+  15% {
+    transform: translate(0, 22px) rotate(-3deg);
+  }
+  20% {
+    transform: translate(0, 30px) rotate(-2deg);
   }
   25% {
-    transform:translate(0, 60px) rotate(-7deg);
+    transform: translate(0, 37px) rotate(-1deg);
+  }
+  30% {
+    transform: translate(0, 45px) rotate(0deg);
+  }
+  35% {
+    transform: translate(0, 52px) rotate(1deg);
+  }
+  40% {
+    transform: translate(0, 60px) rotate(2deg);
+  }
+  45% {
+    transform: translate(0, 67px) rotate(3deg);
   }
   50% {
-    transform:translate(0, 90px) rotate(2deg);
+    transform: translate(0, 75px) rotate(2deg);
+  }
+  55% {
+    transform: translate(0, 82px) rotate(1deg);
+  }
+  60% {
+    transform: translate(0, 90px) rotate(0deg);
+  }
+  65% {
+    transform: translate(0, 97px) rotate(-1deg);
+  }
+  70% {
+    transform: translate(0, 105px) rotate(-2deg);
   }
   75% {
-    transform:translate(0, 120px) rotate(10deg);
+    transform: translate(0, 112px) rotate(-3deg);
+  }
+  80% {
+    transform: translate(0, 120px) rotate(-2deg);
+  }
+  85% {
+    transform: translate(0, 127px) rotate(-1deg);
+  }
+  90% {
+    transform: translate(0, 135px) rotate(0deg);
+  }
+  95% {
+    transform: translate(0, 142px) rotate(1deg);
   }
   100% {
-    transform:translate(0, 150px) rotate(0deg);
+    transform: translate(0, 150px) rotate(2deg);
   }
+
 }
 .todo-item.dragging {
   cursor: grabbing;
