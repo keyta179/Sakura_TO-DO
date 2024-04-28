@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Favorite from './Favorite';
 
-export const Sidebar = ({ todo, todos,favoriteTodos,setFavoriteTodos, setTodo ,setTodos }) => {
+export const Sidebar = ({ todo, todos,favoriteTodos,setFavoriteTodos, setTodo ,setTodos,openSettingsPopup }) => {
 
     // Menu bar が開いているかどうか
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -53,6 +53,9 @@ export const Sidebar = ({ todo, todos,favoriteTodos,setFavoriteTodos, setTodo ,s
         <input value={todo.duration} type='time' name="duration" onChange={handleChange} />
         <button type="submit">Add ToDo</button>
       </form>
+      <button type="button" className={"setting-button"} onClick={openSettingsPopup}>
+        Settings
+      </button>
       <Favorite
         favoriteTodos={favoriteTodos}
         setFavoriteTodos={setFavoriteTodos}

@@ -76,7 +76,7 @@ const SettingsPopup = ({ settings, setSettings, closeSettingsPopup }) => {
                     </div>
                 </div>
             </div>
-            <button onClick={closeSettingsPopup}>Close</button>
+            <button className={"setting-close"}onClick={closeSettingsPopup}>Close</button>
         </div>
     );
 };

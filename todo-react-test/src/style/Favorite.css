@@ -1,6 +1,6 @@
 .favorite-list {
     overflow-y: auto;
-    max-height: 300px;
+    max-height: 164px;
     border-radius: 5px;
     /* Add border-radius property to round the corners */
 }
@@ -10,6 +10,7 @@
     padding: 5px;
     background-color: #f6f5f5;
     border-radius: 5px;
+    max-height: 282px;
     /* Add border-radius property to round the corners */
     transform: scale(0);
     transition-delay: 0s;

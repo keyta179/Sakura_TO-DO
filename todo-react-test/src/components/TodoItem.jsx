@@ -187,11 +187,11 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
         audio.play();
     };
     useEffect(() => {
-        console.log(`todo-item ${todo.hide ? 'hide' : show ? 'show' : ''}`);
+        
         if (!todo.hide) return;
         
         setTimeout(() => {
-            console.log(`todo-item ${todo.hide ? 'hide' : show ? 'show' : ''}`);
+            
             onDelete(todo);
             
         }, 3000);
