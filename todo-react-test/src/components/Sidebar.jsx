@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Favorite from './Favorite';
 import NarrowDown from './NarrowDown';
+import appearSound from './../sound/bird_using_taskAppeared.mp3';
+
 
 export const Sidebar = ({ todo, todos, favoriteTodos, setFavoriteTodos, setTodo, setTodos, openSettingsPopup, selectedCategory, setSelectedCategory }) => {
 
@@ -28,6 +30,8 @@ export const Sidebar = ({ todo, todos, favoriteTodos, setFavoriteTodos, setTodo,
       duration: '',
       position: { x: 0, y: 0 }
     });
+    const audio = new Audio(appearSound);
+    audio.play();
   }, [todo]);
 
   const handleChange = useCallback((e) => {

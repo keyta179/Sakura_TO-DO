@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './../style/TodoItem.css';
 
+import deleteSound from './../sound/wind_using_taskFinished.mp3';
+
 const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight, onDelete, onAddFavorite }) => {
     const [dragging, setDragging] = useState(false); // ドラッグ中かどうかの状態
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 }); // マウス位置
@@ -8,6 +10,7 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
     const [isFavoriteClicked, setIsFavoriteClicked] = useState(false);
     const [isTodoMenuOpened, setIsTodoMenuOpened] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState(null);
+
     
     // ドラッグ開始時の処理
     const handleDragStart = (event) => {
@@ -22,7 +25,7 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
     });
 
     const addFavorite = () => {
-        setIsFavoriteClicked(true); // Mark favorite as clicked
+        setIsFavoriteClicked(true);
         onAddFavorite(todo);
     };
 
@@ -81,7 +84,7 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
 
     useEffect(() => {
         setTimeout(() => {
-         setShow(true); // Set show to true initially
+         setShow(true);
         }, 100);
         
         return;
@@ -182,18 +185,21 @@ const TodoItem = ({ index,todo, todos, setTodo, setTodos, todoWidth, todoHeight,
     }
     const onDeleteWait = () => {
         todo.hide = true; // hideをtrueに設定
+        const audio = new Audio(deleteSound);
+        audio.play();
     };
     useEffect(() => {
         
         if (!todo.hide) return;
         
         setTimeout(() => {
+            onDelete(todo)
             
-            onDelete(todo);
-            
-        }, 3000);
+        }, 2000);
         
     }, [todo.hide]);
+
+    
     
     return (
         <div>
