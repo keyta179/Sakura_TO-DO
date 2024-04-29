@@ -44,6 +44,7 @@ const Favorite = ({ favoriteTodos,isMenuOpen, setFavoriteTodos, onDragStart }) =
     useEffect(() => {
         saveFavoriteTodosToLocalStorage(favoriteTodos);
     }, [favoriteTodos]);
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -68,6 +69,7 @@ const Favorite = ({ favoriteTodos,isMenuOpen, setFavoriteTodos, onDragStart }) =
                             <button onClick={() => {
                                 // 削除ロジックを追加する
                                 favoriteTodos.splice(popupIndex, 1);
+                                setFavoriteTodos([...favoriteTodos]);
                                 closePopup();
                             }}>削除</button>
                         </div>
