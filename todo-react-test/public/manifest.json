@@ -12,7 +12,7 @@
   "background_color": "#ffffff",
   "subheading": "付箋型todoリスト",
   "version": "1.0",
-  "manifest_version": 3,
+  "manifest_version": 2,
   "action": {
     "default_title": "AggressiveTodo",
     "default_icon": "logo192.png",
