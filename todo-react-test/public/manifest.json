@@ -1,11 +1,16 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Sakura_Todo",
+  "name": "Sakura_Todo",
   "icons": {
     "16": "icon_16x16.png",
     "48": "icon_48x48.png",
     "128": "icon_128x128.png"
   },
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "subheading": "付箋型todoリスト",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
